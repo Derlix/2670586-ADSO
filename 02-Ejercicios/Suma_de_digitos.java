@@ -4,6 +4,7 @@ public class Suma_de_digitos {
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
         
+        int num;
         int num1;
         int num2;
         int num3;
@@ -11,12 +12,20 @@ public class Suma_de_digitos {
         int num5;
         int resul;
 
-        System.out.println("Ingresa 5 numeros enteros");
-        num1 = entrada.nextInt();
-        num2 = entrada.nextInt();
-        num3 = entrada.nextInt();
-        num4 = entrada.nextInt();
-        num5 = entrada.nextInt();
+        System.out.print("Ingresa 5 numeros enteros: ");
+        num = entrada.nextInt();
+        
+        num1 =  num%10;
+        num2 = (num%100)/10;
+        num3 = (num%1000)/100;
+        num4 = (num%10000)/1000;
+        num5 =  num/10000;
+
+        System.out.println("Numero 1:  " + num1);
+        System.out.println("Numero 2:  " + num2);
+        System.out.println("Numero 3:  " + num3);
+        System.out.println("Numero 4:  " + num4);
+        System.out.println("Numero 5:  " + num5);
 
         resul = num1 + num2 + num3 + num4 + num5;
 
