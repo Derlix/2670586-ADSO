@@ -20,9 +20,9 @@ public class Ejercicio02 {
 
         }
         else if(num1 > num2 && num1 > num3 && num1 >num4){
-            System.out.print(num1 + " Es el maximo de los 4 digitos que ingresados ");
+            System.out.print(num1 + " Es el maximo de los 4 digitos  ingresados ");
         }else if(num2 > num1 && num2 > num3 && num2 > num4){
-            System.out.print( num2+ " Es el maximo  de los 4 digitos que ingresados");
+            System.out.print( num2+ " Es el maximo  de los 4 digitos ingresados");
         }else if(num3 > num1 && num3 > num2 && num3 > num4){
             System.out.print(num3 + " Es el maximo de los 4 digitos  ingresados");
         }else if(num4 > num1 && num4 > num2  && num4 > num3){
