@@ -13,9 +13,9 @@ public class Ejercicio03 {
 
         for ( i = 1; i <= altura; i++) {
             for ( j = 1; j <= i; j++) {
-                System.out.print("X ");
+                System.out.print(" X ");
             }
-            System.out.println();
+            System.out.println("");
         }
     }
 }

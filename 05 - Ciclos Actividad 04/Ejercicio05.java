@@ -4,13 +4,16 @@ public class Ejercicio05 {
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
 
-        System.out.print("Ingrese un numero: ");
-        int numero = leer.nextInt();
-
         int a = 0;
         int b = 1;
         int c;
         int i;
+        int numero;
+
+        System.out.print("Ingrese un numero: ");
+        numero = leer.nextInt();
+
+        
 
         System.out.print("La sucesion Fibonacci es: " + a + ", " + b);
 
