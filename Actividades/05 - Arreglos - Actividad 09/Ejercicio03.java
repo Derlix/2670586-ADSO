@@ -43,7 +43,7 @@ public class Ejercicio03 {
                     if (!encontrado) {
                         clientes[contador] = nombreCliente;
                         contador++;
-                        System.out.println("El cliente se ha registrado ");
+                        System.out.println(" El cliente se ha registrado ");
                     } else {
                         System.out.println(" Este cliente ya se encuentra en el sistema ");
                     }
@@ -70,12 +70,12 @@ public class Ejercicio03 {
                     System.out.print(" Ingresa el nuevo nombre del cliente: ");
                     String nameNuevo = leer.nextLine();
                     clientes[posicionEncontrada] = nameNuevo;
-                    System.out.println(" Cliente editado exitosamente.");
+                    System.out.println(" Cliente editado ");
                 } else {
-                    System.out.println(" Cliente no encontrado ");
+                    System.out.println(" Cliente no encontrado en el sistema ");
                 }
             } else if (opcion == 4) {
-                System.out.println("Ingresa el nombre del cliente que deseas eliminar: ");
+                System.out.println(" Ingresa el nombre del cliente que deseas eliminar: ");
                 leer.nextLine(); 
                 String nameQuitar = leer.nextLine();
 
@@ -91,16 +91,16 @@ public class Ejercicio03 {
                     clientes[posicionEliminar] = clientes[contador - 1];
                     clientes[contador - 1] = null;
                     contador--;
-                    System.out.println(" Cliente eliminado exitosamente ");
+                    System.out.println(" Cliente eliminado del sistema ");
                 } else {
-                    System.out.println(" Cliente no encontrado ");
+                    System.out.println(" El cliente no se encuentra en el sistema  ");
                 }
             } else if (opcion == 5) {
                 System.out.println(" Saliendo ");
                 
             } else {
 
-                System.out.println(" Opcion invalida Por favor, ingresa una opcion valida ");
+                System.out.println(" Opcion invalida ingresa una opcion valida ");
             
             }
 
