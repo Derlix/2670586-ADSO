@@ -3,16 +3,15 @@ import java.util.Scanner;
 public class Ejercicio03 {
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
-        
+
         int tamano = 100;
         String[] clientes = new String[tamano];
         int contador = 0;
         int opcion = 1;
-        
+        int CanClientes;
 
+        while (opcion != 5) {
 
-        while (opcion !=0) {
-            
             System.out.println(" ");
             System.out.println(" Memoria disponible: " + (tamano - contador) + " Registros.");
             System.out.println("1: Registrar cliente.");
@@ -25,42 +24,46 @@ public class Ejercicio03 {
 
             if (opcion == 1) {
                 if (contador == tamano) {
-                    System.out.println(" La memoria esta llena, no puedes registrar mas clientes");
+                    System.out.println(" La memoria esta llena, no puedes registrar mas clientes ");
                 } else {
 
-                    System.out.println(" Ingresa la cantidad de clientes que quieres registrar: ");
-                    int CanClientes = leer.nextInt();
+                    System.out.print(" Ingresa la cantidad de clientes que queires ingresar: ");
+                    int clientesAregistrar = leer.nextInt();
+
                     leer.nextLine();
-                    for(int i = 1;i<CanClientes;i++){
+
+                    for (int i = 0; i < clientesAregistrar; i++) {
+                        System.out.println(" ");
                         System.out.println(" Ingresa el nombre del cliente: ");
-                        
                         String nombreCliente = leer.nextLine();
 
                         boolean encontrado = false;
-                    for (int j = 0; j < contador;j++) {
-                        if (clientes[j].equals(nombreCliente)) {
-                            encontrado = true;
-                            break;
+                        for (int j = 0; j < contador; j++) {
+                            if (clientes[j].equals(nombreCliente)) {
+                                encontrado = true;
+                                break;
+                            }
                         }
+
+                        if (!encontrado) {
+                            clientes[contador] = nombreCliente;
+                            contador++;
+                            System.out.println("El cliente se ha registrado ");
+                        } else {
+                            System.out.println(" Este cliente ya se encuentra en el sistema ");
+                        }
+
                     }
 
-                    if (!encontrado) {
-                        clientes[contador] = nombreCliente;
-                        contador++;
-                        System.out.println(" El cliente se ha registrado ");
-                    } else {
-                        System.out.println(" Este cliente ya se encuentra en el sistema ");
-                    }
-                    }
                 }
-            } if (opcion == 2) {
+            } else if (opcion == 2) {
                 System.out.println(" Lista de clientes registrados: ");
                 for (int i = 0; i < contador; i++) {
                     System.out.println((i + 1) + ": " + clientes[i]);
                 }
-            } if (opcion == 3) {
+            } else if (opcion == 3) {
                 System.out.println(" Ingresa el nombre del cliente que deseas editar: ");
-                leer.nextLine(); 
+                leer.nextLine();
                 String nombreBuscado = leer.nextLine();
 
                 int posicionEncontrada = -1;
@@ -75,13 +78,13 @@ public class Ejercicio03 {
                     System.out.print(" Ingresa el nuevo nombre del cliente: ");
                     String nameNuevo = leer.nextLine();
                     clientes[posicionEncontrada] = nameNuevo;
-                    System.out.println(" Cliente editado ");
+                    System.out.println(" Cliente editado exitosamente.");
                 } else {
-                    System.out.println(" Cliente no encontrado en el sistema ");
+                    System.out.println(" Cliente no encontrado ");
                 }
-            } if (opcion == 4) {
-                System.out.println(" Ingresa el nombre del cliente que deseas eliminar: ");
-                leer.nextLine(); 
+            } else if (opcion == 4) {
+                System.out.println("Ingresa el nombre del cliente que deseas eliminar: ");
+                leer.nextLine();
                 String nameQuitar = leer.nextLine();
 
                 int posicionEliminar = -1;
@@ -96,17 +99,17 @@ public class Ejercicio03 {
                     clientes[posicionEliminar] = clientes[contador - 1];
                     clientes[contador - 1] = null;
                     contador--;
-                    System.out.println(" Cliente eliminado del sistema ");
+                    System.out.println(" Cliente eliminado exitosamente ");
                 } else {
-                    System.out.println(" El cliente no se encuentra en el sistema  ");
+                    System.out.println(" Cliente no encontrado ");
                 }
-            } if (opcion == 5) {
+            } else if (opcion == 5) {
                 System.out.println(" Saliendo ");
-                
+
             } else {
 
-                System.out.println(" Opcion invalida ingresa una opcion valida ");
-            
+                System.out.println(" Opcion invalida Por favor, ingresa una opcion valida ");
+
             }
 
             System.out.println("  ");
