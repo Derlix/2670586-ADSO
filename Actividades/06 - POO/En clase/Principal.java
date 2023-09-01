@@ -9,7 +9,7 @@ public class Principal {
 
         int opcion = 0;
 
-        while (opcion != 5) {
+        while (opcion != 11) {
             System.out.println("\n");
             System.out.println("+----------------------------------------+");
             System.out.println("|               MENU DE PERSONAS         |");
@@ -31,7 +31,7 @@ public class Principal {
             opcion = entradaNums.nextInt();
 
             if (opcion == 1) {
-                System.out.println("\n\n");
+                System.out.println("\n");
                 System.out.println("+----------------------------------------+");
                 System.out.println("|            Registrando persona         |");
                 System.out.println("+----------------------------------------+");
@@ -56,7 +56,7 @@ public class Principal {
             }
 
             if (opcion == 2) {
-                System.out.println("\n\n");
+                System.out.println("\n");
                 System.out.println("+----------------------------------------+");
                 System.out.println("|            Lista de Personas           |");
                 System.out.println("+----------------------------------------+");
@@ -69,7 +69,7 @@ public class Principal {
             }
 
             if (opcion == 3) {
-                System.out.println("\n\n");
+                System.out.println("\n");
                 System.out.println("+----------------------------------------+");
                 System.out.println("|            Editar persona              |");
                 System.out.println("+----------------------------------------+");
@@ -107,7 +107,7 @@ public class Principal {
             }
 
             if (opcion == 4) {
-                System.out.println("\n\n");
+                System.out.println("\n");
                 System.out.println("+----------------------------------------+");
                 System.out.println("|            Eliminar persona            |");
                 System.out.println("+----------------------------------------+");
@@ -153,6 +153,7 @@ public class Principal {
                     System.out.println("No hay personas registradas.");
                 }
             }
+
             if (opcion == 6) {
 
                 int menorEdad = Integer.MAX_VALUE;
@@ -172,6 +173,7 @@ public class Principal {
                     System.out.println("No hay personas registradas.");
                 }
             }
+
             if (opcion == 7) {
                 int alturaMaxima = 0;
                 int indicePersonaMasAlta = -1;
@@ -193,6 +195,7 @@ public class Principal {
                 }
 
             }
+
             if (opcion == 8) {
 
                 int alturaMinima = Integer.MAX_VALUE;
@@ -214,6 +217,7 @@ public class Principal {
                     System.out.println("No hay personas registradas para determinar la más baja.");
                 }
             }
+
             if (opcion == 9) {
                 int sumaEdades = 0;
                 int totalPersonas = 0;
@@ -233,6 +237,7 @@ public class Principal {
                 }
 
             }
+
             if (opcion == 10) {
                 int sumaAlturas = 0;
                 int totalPersonas = 0;
@@ -256,8 +261,6 @@ public class Principal {
                 System.out.println(" SALIENDO....");
                 System.out.println("\n");
             }
-
-            System.out.println("\n\n ");
         }
     }
 }
