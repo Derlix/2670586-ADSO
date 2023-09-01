@@ -8,7 +8,6 @@ public class Ejercicio03 {
         String[] clientes = new String[tamano];
         int contador = 0;
         int opcion = 1;
-        int CanClientes;
 
         while (opcion != 5) {
 
@@ -83,7 +82,7 @@ public class Ejercicio03 {
                     System.out.println(" Cliente no encontrado ");
                 }
             } else if (opcion == 4) {
-                System.out.println("Ingresa el nombre del cliente que deseas eliminar: ");
+                System.out.println(" Ingresa el nombre del cliente que deseas eliminar: ");
                 leer.nextLine();
                 String nameQuitar = leer.nextLine();
 
@@ -99,7 +98,7 @@ public class Ejercicio03 {
                     clientes[posicionEliminar] = clientes[contador - 1];
                     clientes[contador - 1] = null;
                     contador--;
-                    System.out.println(" Cliente eliminado exitosamente ");
+                    System.out.println(" Cliente eliminado ");
                 } else {
                     System.out.println(" Cliente no encontrado ");
                 }
@@ -108,7 +107,7 @@ public class Ejercicio03 {
 
             } else {
 
-                System.out.println(" Opcion invalida Por favor, ingresa una opcion valida ");
+                System.out.println(" Opcion invalida ingresa una opcion valida ");
 
             }
 
