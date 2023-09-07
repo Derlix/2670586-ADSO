@@ -2,6 +2,7 @@ import java.util.Date;
 
 public class CajeroElectronico {
 
+    int cantidadDineroTotal; 
     int capacidadTotal;
     int dineroDisponible;
     int cant_10;
@@ -25,6 +26,42 @@ public class CajeroElectronico {
         this.listaTransacciones = new String[100];
         this.usuarioAdmin = UsuarioAdmin;
         this.claveAdmin = claveAdmin;
+    }
+
+     // Método para ver el historial del cajero
+     public void verHistorialCajero() {
+        System.out.println("Historial de Transacciones del Cajero:");
+        for (String transaccion : listaTransacciones) {
+            if (transaccion != null) {
+                System.out.println("    -> " + transaccion);
+            }
+        }
+    }
+
+    // Método para consignar dinero a una tarjeta
+    public void consignarDineroaTarjeta(TarjetaDebito tarjeta, int monto) {
+        // Implementa la lógica para consignar dinero a una tarjeta aquí
+    }
+
+    // Método para retirar dinero de una tarjeta
+    public void retirarDineroTarjeta(TarjetaDebito tarjeta, int monto) {
+        // Implementa la lógica para retirar dinero de una tarjeta aquí
+    }
+
+    // Método para ver el historial de una tarjeta
+    public void verHistorialTarjeta(TarjetaDebito tarjeta) {
+        // Implementa la lógica para ver el historial de una tarjeta aquí
+    }
+
+    // Método para consultar el saldo de una tarjeta
+    public int consultarSaldoTarjeta(TarjetaDebito tarjeta) {
+        // Implementa la lógica para consultar el saldo de una tarjeta aquí
+        return 0; // Reemplaza esto con la lógica real
+    }
+
+    // Método para cambiar la clave de una tarjeta
+    public void cambiarClave(TarjetaDebito tarjeta, String nuevaClave) {
+        // Implementa la lógica para cambiar la clave de una tarjeta aquí
     }
 
     public CajeroElectronico(int capacidadTotal, String nombreBanco, String UsuarioAdmin, String claveAdmin) {
