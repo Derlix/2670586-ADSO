@@ -13,9 +13,11 @@ public class CajeroElectronico {
     String[] listaTransacciones;
     String usuarioAdmin;
     String claveAdmin;
+    String user;
+    String Userc;
 
     public CajeroElectronico(int capacidadTotal, int dineroDisponible, int cant_10, int cant_20, int cant_50,
-        int cant_100, String nombreBanco, String listaTransacciones, String UsuarioAdmin, String claveAdmin) {
+        int cant_100, String nombreBanco, String listaTransacciones,int total, String UsuarioAdmin, String claveAdmin) {
         this.capacidadTotal = capacidadTotal;
         this.dineroDisponible = dineroDisponible;
         this.cant_10 = cant_10;
@@ -29,7 +31,7 @@ public class CajeroElectronico {
     }
 
      // Método para ver el historial del cajero
-     public void verHistorialCajero() {
+    public void verHistorialCajero(String string, String string2) {
         System.out.println("Historial de Transacciones del Cajero:");
         for (String transaccion : listaTransacciones) {
             if (transaccion != null) {
@@ -39,8 +41,47 @@ public class CajeroElectronico {
     }
 
     // Método para consignar dinero a una tarjeta
-    public void consignarDineroaTarjeta(TarjetaDebito tarjeta, int monto) {
+    public void consignarDineroaTarjeta(TarjetaDebito tarjeta, String clave, int cant_10,int cant_20,int cant_50,int cant_100) {
         // Implementa la lógica para consignar dinero a una tarjeta aquí
+        int monto = (cant_10*10000) + (cant_20*20000) + (cant_50*50000) + (cant_100*100000);
+        if (tarjeta.validarClave(clave) ) {
+            if( tarjeta.validarActica()){
+                if (monto > 0 ){
+                        if((dineroDisponible+monto)<=capacidadTotal ){
+                            tarjeta.aumentarSaldo(monto, clave);
+                            dineroDisponible+= monto;
+                            this.cant_10+=cant_10;
+                            this.cant_20+=cant_20;
+                            this.cant_50+= cant_50;
+                            this.cant_100+= cant_100;
+                            System.out.println("|          Realizado - consignar dinero               |");
+                            registrarTransaccion("Consignacion", tarjeta.getnumero(), monto, "ERROR");
+                        }else{
+                            System.out.println("------------------------------------------");
+                            System.out.println("|             Error Estado               |");
+                            System.out.println("-----------------------------------------|");
+                            registrarTransaccion("Consignacion", tarjeta.getnumero(), monto, "ERROR");
+                        }
+            
+                } else{
+                    System.out.println("------------------------------------------");
+                    System.out.println("|             Error monto inferior       |");
+                    System.out.println("-----------------------------------------|");
+                    registrarTransaccion("Consignacion", tarjeta.getnumero(), monto, "ERROR");
+                }
+        
+            }else{
+                System.out.println("------------------------------------------");
+                System.out.println("|             Error Estado               |");
+                System.out.println("-----------------------------------------|");
+                registrarTransaccion("Consignacion", tarjeta.getnumero(), monto, "ERROR");
+            }
+        }else{
+            System.out.println("------------------------------------------");
+            System.out.println("|             Error pasword              |");
+            System.out.println("-----------------------------------------|");
+           registrarTransaccion("Consignacion", tarjeta.getnumero(), monto, "ERROR");
+        }
     }
 
     // Método para retirar dinero de una tarjeta
@@ -51,6 +92,20 @@ public class CajeroElectronico {
     // Método para ver el historial de una tarjeta
     public void verHistorialTarjeta(TarjetaDebito tarjeta) {
         // Implementa la lógica para ver el historial de una tarjeta aquí
+        if (user.equals(usuarioAdmin)&&Userc.equals(claveAdmin)){
+            System.out.println("------------------------------------------");
+            System.out.println("|             Historial de cajero        |");
+            System.out.println("-----------------------------------------|");
+            for ( int i=0;i<listaTransacciones.length;i++){
+                if ( listaTransacciones[i]!=null){
+                    System.out.print(listaTransacciones[i]);
+                }
+            }
+            registrarTransaccion("Historail", "0000 0000 0000 0000", 0, "OK");
+        }else {
+            System.out.print("---> Acceso Denegado <---");
+            registrarTransaccion("Historail", "0000 0000 0000 0000", 0, "OK");
+        }
     }
 
     // Método para consultar el saldo de una tarjeta
@@ -94,13 +149,12 @@ public class CajeroElectronico {
                 System.out.println("    -> " + listaTransacciones[i]);
             }
         }
-        System.out.println("Total en efectivo disponible: " + dineroDisponible); // Agregar esta línea
     }
     
 
     public boolean abastecerCajero(int cant_10, int cant_20, int cant_50, int cant_100) {
         // Calcular el total ingresado
-        int total = (cant_10 * 10) + (cant_20 * 20) + (cant_50 * 50) + (cant_100 * 100);
+        int total = (cant_10 * 10000) + (cant_20 * 20000) + (cant_50 * 50000) + (cant_100 * 100000);
         // Validar que no exceda la capacidad total
         if (total <= capacidadTotal) {
             // Si es válido, almacenar los datos de los atributos
@@ -110,12 +164,13 @@ public class CajeroElectronico {
             this.cant_50 = cant_50;
             this.cant_100 = cant_100;
     
-            registrarTransaccion("Abastecer", "0000 0000 0000 0000", total, "OK");
+            registrarTransaccion("Abastecer", "0000 0000 0000 0000", dineroDisponible, "OK");
+    
             return true;
         } else {
             // No es válido, imprimir mensaje y retornar False
             System.out.println("Error en Recarga");
-            registrarTransaccion("Abastecer", "0000 0000 0000 0000", total, "ERROR");
+            registrarTransaccion("Abastecer", "0000 0000 0000 0000",dineroDisponible , "ERROR");
             return false;
         }
     }
@@ -123,7 +178,7 @@ public class CajeroElectronico {
 
     public void registrarTransaccion(String tipo, String NumeroTarjeta,int monto,String estado){
         Date fecha = new Date();
-        String texto = fecha.toString()+ tipo + " - "+NumeroTarjeta + " - " +estado;
+        String texto = fecha.toString()+ tipo + " - "+NumeroTarjeta + "-" +monto+ " - " +estado;
 
         //Buscar indice vacio
 
@@ -141,10 +196,10 @@ public class CajeroElectronico {
         }else{
             for (int i = 0; i<listaTransacciones.length-1;i++ ){
                 listaTransacciones[ i ] = listaTransacciones [ +1 ];
-
-
             }
             listaTransacciones [ listaTransacciones.length-1 ] = texto;
         }
     }
+
+    
 }
