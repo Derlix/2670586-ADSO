@@ -1,0 +1,51 @@
+@startuml pepel
+
+!define ICONURL https://raw.githubusercontent.com/rabelenda/PlantUML-icons/master/Package/Internet/
+
+!define Business $ICONURL/business.png
+!define User $ICONURL/user.png
+!define Document $ICONURL/document.png
+!define Finance $ICONURL/finance.png
+!define Process $ICONURL/process.png
+!define Mobile $ICONURL/mobile.png
+
+package "Registro y Gestión de Productos" {
+  [Registrar Producto] as RegistrarProducto
+  [Generar Informes] as GenerarInformes
+  [Mantenimiento de Inventario] as MantenerInventario
+  [Gestión de Clientes] as GestionClientes
+  [Notificaciones y Comunicaciones] as Notificaciones
+}
+
+package "Gestión de Pedidos" {
+  [Gestionar Pedido] as GestionarPedido
+  [Coordinación de Entregas] as CoordinacionEntregas
+  [Interacción con Distribuidores] as InteraccionDistribuidores
+  [Atender Pedido] as AtenderPedido
+  [Cancelar Compra] as CancelarCompra
+}
+
+package "Gestión de Cuentas de Usuario" {
+  [Crear cuenta] as CrearCuenta
+  [Iniciar Sesión] as IniciarSesion
+  [Administrar cuenta] as AdministrarCuenta
+}
+
+package "Realizar Pedido" {
+  [Realizar pedido] as RealizarPedido
+  [Realizar pago] as RealizarPago
+}
+
+RegistrarProducto --> GenerarInformes
+RegistrarProducto --> MantenerInventario
+RegistrarProducto --> GestionClientes
+RegistrarProducto --> Notificaciones
+GestionarPedido --> CoordinacionEntregas
+GestionarPedido --> InteraccionDistribuidores
+GestionarPedido --> AtenderPedido
+GestionarPedido --> CancelarCompra
+RealizarPedido --> RealizarPago
+CrearCuenta --> IniciarSesion
+CrearCuenta --> AdministrarCuenta
+
+@enduml

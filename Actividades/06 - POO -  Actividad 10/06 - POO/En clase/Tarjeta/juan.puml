@@ -1,0 +1,84 @@
+@startuml
+
+!define RECTANGLE class
+!define FOLDER package
+
+package "Sistema de Distribución de Productos Agrícolas" {
+  
+  package "Usuarios" {
+    RECTANGLE Usuario
+    RECTANGLE Agricultor
+    RECTANGLE Distribuidor
+    RECTANGLE EncargadoDePedidos
+    RECTANGLE Cliente
+    RECTANGLE Administrador
+  }
+
+  package "Pedidos y Productos" {
+    RECTANGLE Pedido
+    RECTANGLE Producto
+  }
+
+  package "Inventario" {
+    RECTANGLE Inventario
+  }
+
+  package "Pagos" {
+    RECTANGLE MetodoPago
+  }
+
+  package "Funciones del Usuario" {
+    RECTANGLE CrearCuenta
+    RECTANGLE IniciarSesion
+    RECTANGLE AdministrarCuenta
+    RECTANGLE AdministrarProductos
+    RECTANGLE AtenderPedido
+    RECTANGLE CancelarCompra
+  }
+
+  package "Funciones del Agricultor" {
+    RECTANGLE RegistrarProducto
+    RECTANGLE GestionarPedido
+    RECTANGLE CoordinarEntregas
+    RECTANGLE MantenerInventario
+    RECTANGLE GenerarInformes
+    RECTANGLE GestionarClientes
+    RECTANGLE NotificacionesComunicaciones
+    RECTANGLE GestionarPagos
+    RECTANGLE SeguimientoCalidad
+    RECTANGLE InteraccionDistribuidores
+  }
+
+  package "Funciones del Distribuidor" {
+    RECTANGLE CoordinarEntregasDistribuidor
+    RECTANGLE InteraccionAgricultores
+  }
+
+  package "Funciones del Encargado de Pedidos" {
+    RECTANGLE AtenderPedidoEncargado
+  }
+
+  Usuario -- Agricultor
+  Usuario -- Distribuidor
+  Usuario -- EncargadoDePedidos
+  Usuario -- Cliente
+  Usuario -- Administrador
+
+  Agricultor -- Producto
+  Agricultor -- Pedido
+  Agricultor -- Inventario
+  Agricultor -- MetodoPago
+
+  Distribuidor -- Pedido
+  Distribuidor -- MetodoPago
+
+  EncargadoDePedidos -- Pedido
+
+  Cliente -- Pedido
+  Cliente -- MetodoPago
+
+  Pedido -- Producto
+  Producto -- Inventario
+}
+
+@enduml

@@ -1,0 +1,96 @@
+@startuml
+
+class Usuario {
+  -nombre: String
+  -email: String
+  -contraseña: String
+  +autenticar(): Boolean
+}
+
+class Agricultor {
+  +registrarProducto()
+  +gestionarPedido()
+  +coordinarEntregas()
+  +mantenerInventario()
+  +generarInformes()
+  +gestionarClientes()
+  +notificacionesComunicaciones()
+  +gestionarPagos()
+  +seguimientoCalidad()
+  +interaccionDistribuidores()
+  +crearCuenta()
+  +iniciarSesion()
+  +administrarCuenta()
+  +administrarProductos()
+  +atenderPedido()
+  +cancelarCompra()
+}
+
+class Distribuidor {
+  +coordinarEntregas()
+  +interaccionAgricultores()
+  +iniciarSesion()
+}
+
+class EncargadoDePedidos {
+  +atenderPedido()
+  +iniciarSesion()
+}
+
+class Cliente {
+  +realizarPedido()
+  +realizarPago()
+  +administrarCuenta()
+  +administrarProductos()
+  +atenderPedido()
+  +cancelarCompra()
+  +iniciarSesion()
+}
+
+class Producto {
+  -nombre: String
+  -descripcion: String
+  -categoria: String
+  -precio: Double
+}
+
+class Pedido {
+  -productos: Producto[]
+  -cliente: Cliente
+  -estado: String
+}
+
+class Inventario {
+  -producto: Producto
+  -cantidad: Int
+}
+
+class MetodoPago {
+  -tipo: String
+  -descripcion: String
+}
+
+class Administrador {
+  // Atributos y métodos específicos del administrador
+}
+
+Cliente -- Pedido: Realiza
+Agricultor -- Producto: Registra
+Agricultor -- Pedido: Gestiona
+Agricultor -- Inventario: Mantiene
+Agricultor -- MetodoPago: Utiliza
+Distribuidor -- Pedido: Coordina
+Distribuidor -- MetodoPago: Utiliza
+EncargadoDePedidos -- Pedido: Atiende
+Cliente -- MetodoPago: Utiliza
+Cliente -- Pedido: Realiza
+
+Pedido *-- Producto: Contiene
+Inventario o-- Producto: Contiene
+
+Usuario <|-- Agricultor
+Usuario <|-- Distribuidor
+Usuario <|-- EncargadoDePedidos
+Usuario <|-- Cliente
+
+@enduml
