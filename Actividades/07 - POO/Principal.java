@@ -1,7 +1,7 @@
 public class Principal {
     public static void main(String[] args) {
 
-        Perro perro1 = new Perro("Pecas", "Maria", 108, "Boxer", 30.5, 100);
+        Perro perro1 = new Perro("Pecas", "Maria", 108, "Boxer", 30.5, 10);
         Perro perro2 = new Perro("Pepito", "Oscar", 2, "Weimaraner", 4.5, 100);
 
         perro1.imprimir_detalle();

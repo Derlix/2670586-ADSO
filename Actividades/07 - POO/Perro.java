@@ -105,28 +105,41 @@ public class Perro {
     }
 
     public void ladrar(double ladridos) {
+        // Calcula la reduccion de peso y energia basada en la cantidad de ladridos
+        double reduccionPeso = 0;
+        int reduccionEnergia = 0;
+        
         if (ladridos >= 5) {
-
-            peso = peso - ((double) ladridos / 1000);
-            energia = energia - ((int) ladridos / 1);
+            reduccionPeso = ladridos / 1000.0;
+            reduccionEnergia = (int) (ladridos / 1.0);
         }
+    
         if (ladridos >= 15) {
-
-            peso = peso - ((double) ladridos / 20);
-            energia = energia - ((int) ladridos / 4);
+            reduccionPeso = ladridos / 20.0;
+            reduccionEnergia = (int) (ladridos / 4.0);
         }
+    
         if (ladridos >= 30) {
-
-            peso = peso - ((double) ladridos / 10);
-            energia = energia - ((int) ladridos / 6);
-
+            reduccionPeso = ladridos / 10.0;
+            reduccionEnergia = (int) (ladridos / 6.0);
         }
+    
         if (ladridos >= 60) {
-            peso = peso - ((double) ladridos / 5);
-            energia = energia - ((int) ladridos / 5);
+            reduccionPeso = ladridos / 5.0;
+            reduccionEnergia = (int) (ladridos / 5.0);
         }
-
+    
+        // Aplica la reduccion solo si la energia disponible es suficiente
+        if (energia >= reduccionEnergia) {
+            peso = peso - reduccionPeso;
+            energia = energia - reduccionEnergia;
+        } else {
+            // Si la energia no es suficiente establece la energia en 0
+            peso = peso - reduccionPeso;
+            energia = 0;
+        }
     }
+    
 
     public void morder(int cantidad) {
 
@@ -141,17 +154,23 @@ public class Perro {
 
         if (energia > 100) {
             System.out.println(" PERRO SOBRECARGADO DE ENERGIA ");
+            energia = 100;
         }
     }
 
-    public void hacerPopo(int gramos) {
-
+    public void hacerPopis(double gramos) {
         // reducir el peso del perro
+        peso = peso - (gramos / 1000);
+
     }
 
     public void jugar(int tiempo) {
-
         // reducir la energía
+        energia = energia - (tiempo / 60) * 2;
+
+        if (energia < 0) {
+            energia = 0;
+        }
     }
 
 }
