@@ -5,6 +5,7 @@ public class Ejercicio06 {
         maximo(10, 30, 20);
         Scanner leer = new Scanner(System.in);
 
+        leer.close();
     }
 
     public static void maximo(int a, int b, int c) {
