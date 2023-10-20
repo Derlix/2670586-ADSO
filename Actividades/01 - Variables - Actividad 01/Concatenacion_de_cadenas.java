@@ -17,5 +17,6 @@ public class Concatenacion_de_cadenas {
         concadenar = cadena1 + cadena2; 
 
         System.out.println("La concatenación de las cadenas es: " + concadenar);
+        
     }
 }
