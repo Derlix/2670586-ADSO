@@ -2,27 +2,30 @@ import java.util.Scanner;
 
 public class Cursos {
     // Atributos
-    
+    Scanner leer = new Scanner(System.in);
+    Scanner num = new Scanner(System.in);
+
     String codigo;
     String nombre;
     String areadeconocimiento;
     int DuracionEnHoras;
-    String temas[] = new String[14]; { 
-    temas[0] = "Tema 1";
-    temas[1] = "Tema 2";
-    temas[2] = "Tema 3";
-    temas[3] = "Tema 4";
-    temas[4] = "Tema 5";
-    temas[5] = "Tema 6";
-    temas[6] = "Tema 7";
-    temas[7] = "Tema 8";
-    temas[8] = "Tema 9";
-    temas[9] = "Tema 10";
-    temas[10] = "Tema 11";
-    temas[11] = "Tema 12";
-    temas[12] = "Tema 13";
-    temas[13] = "Tema 14"; }
-    
+    String temas[] = new String[14];
+    {
+        temas[0] = "Tema 1";
+        temas[1] = "Tema 2";
+        temas[2] = "Tema 3";
+        temas[3] = "Tema 4";
+        temas[4] = "Tema 5";
+        temas[5] = "Tema 6";
+        temas[6] = "Tema 7";
+        temas[7] = "Tema 8";
+        temas[8] = "Tema 9";
+        temas[9] = "Tema 10";
+        temas[10] = "Tema 11";
+        temas[11] = "Tema 12";
+        temas[12] = "Tema 13";
+        temas[13] = "Tema 14";
+    }
 
     // Constructor
     public Cursos(String code, String name, String knowledge, int hours, String themes) {
@@ -75,19 +78,16 @@ public class Cursos {
     public void imprimir_detalle() {
         System.out.println("+--------------------------------+");
         System.out.println("| Codigo | Nombre | Duracion hrs |");
-        System.out.println("|  "+codigo+" | " + nombre+" | " + DuracionEnHoras+"|");
+        System.out.println("|  " + codigo + " | " + nombre + " | " + DuracionEnHoras + "|");
         System.out.println("+--------------------------------+");
-        
+
     }
 
     public Cursos crearCurso() {
-        Scanner leer = new Scanner(System.in);
-        Scanner num = new Scanner(System.in);
-    
+
         System.out.print("Agrega el codigo del curso: ");
         codigo = leer.nextLine();
 
-        
         System.out.print("Pon un nombre para este curso: ");
         nombre = leer.nextLine();
         System.out.print("Escribe el area de conocimiento: ");
@@ -99,10 +99,40 @@ public class Cursos {
             System.out.print("[" + temas[i] + "]");
         }
         String tema = leer.nextLine();
-    
+
         return new Cursos(codigo, nombre, areadeconocimiento, DuracionEnHoras, tema);
     }
 
-   
+    public void editar(int indice, Cursos[] cursos) {
+
+        if (indice >= 0 && indice < cursos.length) {
+            System.out.println(" Nuevo Codigo ");
+            String newcode = leer.nextLine();
+            System.out.println(" Nuevo Nombre ");
+            String newnombre = leer.nextLine();
+            System.out.println("Nuevo Area de conocimiento ");
+            String newnareadec = leer.nextLine();
+            System.out.println("Nueva duracion ");
+            int newnduracion = leer.nextInt();
+            for (int i = 0; i < temas.length; i++) {
+                System.out.print("[" + temas[i] + "]");
+            }
+            String tema = leer.nextLine();
+            cursos[indice].setCodigo(newcode);
+            cursos[indice].setNombre(newnombre);
+            cursos[indice].setAreadeconocimiento(newnareadec);
+            cursos[indice].setDuracionEnHoras(newnduracion);
+            System.out.println("+-----------------------------+");
+            System.out.println("| Curso editado correctamente |");
+            System.out.println("+-----------------------------+");
+
+        } else {
+            System.out.println("+-----------------------------+");
+            System.out.println("|   Indice fuera de rango     |");
+            System.out.println("| No se puede editar el curso |");
+            System.out.println("+-----------------------------+");
+        }
+
+    }
 
 }

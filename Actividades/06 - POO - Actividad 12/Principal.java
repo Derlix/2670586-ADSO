@@ -5,15 +5,15 @@ public class Principal {
         Scanner leer = new Scanner(System.in);
         Scanner num = new Scanner(System.in);
 
-        Cursos cursos [] = new Cursos[100];
-        int cursoCount=0;
+        Cursos cursos[] = new Cursos[100];
+        int cursoCount = 0;
         int opcion = 0;
 
         while (opcion != 7) {
             System.out.println("+--------------------------------------------+");
             System.out.println("|                MENU DE CURSOS              |");
             System.out.println("+--------------------------------------------+ ");
-            System.out.println("|                             Memoria:"+(100-cursoCount)+"    |");
+            System.out.println("|                             Memoria:" + (100 - cursoCount) + "    |");
             System.out.println("|  1. Crear curso.                           |");
             System.out.println("|  2. Listar todos los cursos.               |");
             System.out.println("|  3. Ver detalle de curso.                  |");
@@ -26,7 +26,7 @@ public class Principal {
             System.out.print(" -> Elige una opcion: ");
             opcion = num.nextInt();
             if (opcion == 1) {
-                
+
                 if (cursoCount < 100) {
                     cursos[cursoCount] = new Cursos("", "", "", 0, null); // Crear una instancia de Cursos
                     cursos[cursoCount] = cursos[cursoCount].crearCurso(); // Llamar a crearCurso en la instancia
@@ -44,12 +44,12 @@ public class Principal {
                         cursos[i].imprimir_detalle();
                     }
                 }
-            }            
+            }
             if (opcion == 3) {
                 System.out.println("Ingresa el codigo del curso: ");
                 String code = leer.nextLine();
                 boolean cursoEncontrado = false;
-            
+
                 for (int i = 0; i < cursoCount; i++) {
                     if (cursos[i] != null && cursos[i].getCodigo().equals(code)) {
                         cursos[i].imprimir_detalle();
@@ -57,22 +57,27 @@ public class Principal {
                         break; // Terminamos el bucle porque ya encontramos el curso
                     }
                 }
-            
+
                 if (!cursoEncontrado) {
                     System.out.println("No se encontro un curso con el codigo especificado.");
                 }
             }
-            
+
             if (opcion == 4) {
-    
+                System.out.println(" Digita el codigo del curso a editar: ");
+                for (int i = 0; i < cursoCount; i++) {
+                    System.out.println(" Ficha: " + cursos[i].getCodigo());
+                }
+                int indice = num.nextInt();
+                cursos[indice].editar(indice, cursos);
             }
             if (opcion == 5) {
-    
+
             }
             if (opcion == 6) {
-    
+
             }
-    
+
             if (opcion == 7) {
                 System.out.println("+----------------+");
                 System.out.println("|   Saliendo...  | ");
@@ -81,5 +86,4 @@ public class Principal {
         }
     }
 
-    
 }
