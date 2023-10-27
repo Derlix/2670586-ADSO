@@ -66,15 +66,30 @@ public class Principal {
             if (opcion == 4) {
                 System.out.println(" Digita el codigo del curso a editar: ");
                 for (int i = 0; i < cursoCount; i++) {
-                    System.out.println(" Ficha: " + cursos[i].getCodigo());
+                    if (cursos[i] != null) {
+                        System.out.println(" Ficha: " + cursos[i].getCodigo());
+                    }
                 }
                 int indice = num.nextInt();
                 cursos[indice].editar(indice, cursos);
             }
             if (opcion == 5) {
+                System.out.println(" Cuantos temas quieres agregar (No más de 14) ");
+                int cantidadTemas = num.nextInt();
+                System.out.print("Código del curso al que deseas agregar un tema: ");
+                String codigoCurso = leer.nextLine();
 
-            }
-            if (opcion == 6) {
+                for (int i = 0; i < cursoCount; i++) {
+                    if (cursos[i] != null && cursos[i].getCodigo().equals(codigoCurso)) {
+                        for (int j = 0; j < cantidadTemas; j++) {
+                            System.out.print("Nombre del tema: ");
+                            String nuevoTema = leer.nextLine();
+                            cursos[i].agregarTema(nuevoTema);
+                            break; // Termina el bucle una vez que se ha encontrado y actualizado el curso.
+                        }
+
+                    }
+                }
 
             }
 
@@ -83,6 +98,8 @@ public class Principal {
                 System.out.println("|   Saliendo...  | ");
                 System.out.println("+----------------+ ");
             }
+            leer.close();
+            num.close();
         }
     }
 

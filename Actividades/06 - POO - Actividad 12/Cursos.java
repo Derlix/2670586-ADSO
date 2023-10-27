@@ -122,6 +122,7 @@ public class Cursos {
             cursos[indice].setNombre(newnombre);
             cursos[indice].setAreadeconocimiento(newnareadec);
             cursos[indice].setDuracionEnHoras(newnduracion);
+            cursos[indice].setTemas(tema);
             System.out.println("+-----------------------------+");
             System.out.println("| Curso editado correctamente |");
             System.out.println("+-----------------------------+");
@@ -133,6 +134,17 @@ public class Cursos {
             System.out.println("+-----------------------------+");
         }
 
+    }
+
+    public void agregarTema(String nuevoTema) {
+        for (int i = 0; i < temas.length; i++) {
+            if (temas[i] == null) {
+                temas[i] = nuevoTema;
+                System.out.println("Tema agregado exitosamente: " + nuevoTema);
+                return; // Termina la función una vez que se ha agregado el tema.
+            }
+        }
+        System.out.println("No se pueden agregar más temas a este curso.");
     }
 
 }
