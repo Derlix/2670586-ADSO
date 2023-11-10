@@ -14,8 +14,9 @@ public class Facturas extends JFrame {
 
         Toolkit System = Toolkit.getDefaultToolkit();
         Dimension tamanio = System.getScreenSize();
-
         setTitle("FACTURA");
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_factura.png")));
+
         setSize((int) (tamanio.width * 0.4D), (int) (tamanio.height * 0.9D));
         setDefaultCloseOperation(3);
         setLocationRelativeTo((Component) null);
