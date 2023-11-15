@@ -436,11 +436,12 @@ public class Facturador extends JFrame {
 				// Algoritmo que quieran que se realice al
 				// Presional una tecla
 				System.out.println("Tecla Presionada");
-				input_nombres_cliente.setText("");
-				input_direccion_cliente.setText("");
 
 				if (e.getKeyCode() == 10) {
 					buscarCliente();
+					input_nombres_cliente.setText("");
+					input_direccion_cliente.setText("");
+					input_cedula_vendedor.requestFocus();
 				}
 			}
 
@@ -458,11 +459,11 @@ public class Facturador extends JFrame {
 				// Algoritmo que quieran que se realice al
 				// Presional una tecla
 				System.out.println("Tecla Presionada");
-				input_nombres_vendedor.setText("");
-				input_cedula_vendedor.setText("");
 
 				if (e.getKeyCode() == 10) {
 					buscarVendedor();
+					input_nombres_vendedor.setText("");
+					input_cedula_vendedor.setText("");
 				}
 			}
 
@@ -509,7 +510,7 @@ public class Facturador extends JFrame {
 		String cedula = input_cedula_cliente.getText();
 
 		for (int i = 0; i < listaUsuario.length; i++) {
-			if (listaUsuario[i] != null && listaUsuario[i].equals("CLIENTE")
+			if (listaUsuario[i] != null && listaUsuario[i].getRol().equals("CLIENTE")
 					&& listaUsuario[i].getCedula().equals(cedula)) {
 				input_nombres_cliente.setText(listaUsuario[i].getNombres());
 				input_direccion_cliente.setText(listaUsuario[i].getDireccion());
@@ -520,8 +521,8 @@ public class Facturador extends JFrame {
 	public void buscarVendedor() {
 		String cedula = input_cedula_vendedor.getText();
 		for (int i = 0; i < listaUsuario.length; i++) {
-			if (listaUsuario[i] != null && listaUsuario[i].equals("VENDEDOR")
-					&& listaUsuario[i].getCedula().equals(input_cedula_vendedor)) {
+			if (listaUsuario[i] != null && listaUsuario[i].getRol().equals("VENDEDOR")
+					&& listaUsuario[i].getCedula().equals(cedula)) {
 				input_nombres_vendedor.setText(listaUsuario[i].getNombres());
 			}
 		}
