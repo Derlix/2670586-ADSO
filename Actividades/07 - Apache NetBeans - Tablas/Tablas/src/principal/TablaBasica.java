@@ -1,6 +1,10 @@
 
 package principal;
 
+import utils.Persona;
+import java.lang.invoke.MethodHandles;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -49,7 +53,22 @@ public class TablaBasica extends javax.swing.JFrame {
         
         modelo = (DefaultTableModel) tabla_Datos.getModel();
         
+        //Tamano de columnas
+        tabla_Datos.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tabla_Datos.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tabla_Datos.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tabla_Datos.getColumnModel().getColumn(3).setPreferredWidth(50);
+        tabla_Datos.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        tabla_Datos.getTableHeader().setReorderingAllowed(false);
+        tabla_Datos.getTableHeader().setResizingAllowed(false);
+        DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
+        centerRender.setHorizontalAlignment(SwingConstants.CENTER);
+        tabla_Datos.getColumnModel().getColumn(0).setCellRenderer(centerRender);
+        tabla_Datos.getColumnModel().getColumn(3).setCellRenderer(centerRender);
         
+        //alto de las filas
+        tabla_Datos.setRowHeight(30);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -151,7 +170,7 @@ public class TablaBasica extends javax.swing.JFrame {
         contenedor_FormularioLayout.setHorizontalGroup(
             contenedor_FormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedor_FormularioLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(99, Short.MAX_VALUE)
                 .addGroup(contenedor_FormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contenedor_FormularioLayout.createSequentialGroup()
                         .addGroup(contenedor_FormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,33 +296,26 @@ public class TablaBasica extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boton_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_agregarActionPerformed
-        
-      
+
         String documento = campo_Documento.getText();
         String nombres = campo_Nombres.getText();
         String apellidos = campo_Apellidos.getText();
         String telefono = campo_Telefono.getText();
         String correo = campo_Correo.getText();
-        
-        
-        
-        
-        
-            
-        
+
         if( documento.equalsIgnoreCase("") && nombres.equalsIgnoreCase("")&& telefono.equalsIgnoreCase("") && apellidos.equalsIgnoreCase("")&& correo.equalsIgnoreCase("") ){
-            
+
             Alerta ventana = new Alerta(" Todos los campos son obligatorios");
-            
+
         }else{
-            
+
             for (Persona persona : listaPersonas){
-                 if (persona != null && (persona.getDocumento().equals(documento) || persona.getCorreo().equals(correo))) {
+                if (persona != null && (persona.getDocumento().equals(documento) || persona.getCorreo().equals(correo))) {
                     Alerta ventana1 = new Alerta(" El Documento o Correo ya existen ");
                     return; // Salir del método si el documento o el correo ya existen
                 }
             }
-            
+
             int posicion = -1;
             for (int i = 0; i < listaPersonas.length; i++) {
                 if(listaPersonas[i]==null){
@@ -311,12 +323,12 @@ public class TablaBasica extends javax.swing.JFrame {
                     break;
                 }
             }
-            
+
             if(posicion!=1){
                 listaPersonas[posicion] = new Persona(documento, nombres, apellidos, telefono, correo);
                 Object data[] = new Object[]{documento,nombres,apellidos,telefono,correo};
                 modelo.addRow(data);
-            
+
                 campo_Apellidos.setText("");
                 campo_Correo.setText("");
                 campo_Documento.setText("");
@@ -324,16 +336,9 @@ public class TablaBasica extends javax.swing.JFrame {
                 campo_Nombres.setText("");
                 campo_Documento.requestFocus();
             }
-            
-            
+
         }
-        
-        
-        
-        
-        
-        
-        
+
     }//GEN-LAST:event_boton_agregarActionPerformed
 
     

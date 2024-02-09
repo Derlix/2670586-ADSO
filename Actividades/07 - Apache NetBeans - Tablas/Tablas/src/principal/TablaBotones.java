@@ -1,15 +1,30 @@
 
 package principal;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import utils.Persona;
+import java.lang.invoke.MethodHandles;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import utils.ButtonEditor;
+import utils.ButtonRenderer;
 
 
-public class TablaBasica extends javax.swing.JFrame {
+
+public class TablaBotones extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
     Persona listaPersonas[];
     
-    public TablaBasica() {
+    public TablaBotones() {
         listaPersonas = new Persona[100];
         listaPersonas[0] = new Persona("1089378334","Christian","Arias","3212898067","christian@gmail.com");
         listaPersonas[1] = new Persona("421005","Pepito","Sanchez","3218888880","sanchezpepito@gmail.com");
@@ -30,11 +45,40 @@ public class TablaBasica extends javax.swing.JFrame {
             String apellidos = listaPersonas[i].getApellidos();
             String telefono = listaPersonas[i].getTelefono();
             String correo = listaPersonas[i].getCorreo();
-        
-            Object dato []= new Object[]{documento,nombres,apellidos,telefono,correo};
+            
+            JButton btnEditar = new JButton();
+            btnEditar.setBackground(Color.WHITE);
+            
+            Image icono_editar = getToolkit().createImage(ClassLoader.getSystemResource("folder/icono_editar.png"));
+            icono_editar = icono_editar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            btnEditar.setIcon( new ImageIcon(icono_editar));
+
+            JButton btnEliminar = new JButton();
+            btnEliminar.setBackground(Color.WHITE);
+            
+            Image icono_eliminar = getToolkit().createImage(ClassLoader.getSystemResource("folder/icono_eliminar.png"));
+            icono_eliminar = icono_eliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            btnEliminar.setIcon( new ImageIcon(icono_eliminar));
+            
+            Object dato []= new Object[]{documento,nombres,apellidos,telefono,correo,btnEditar,btnEliminar};
             modelo.addRow(dato);
             
-        
+            btnEditar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println(" Nombres: "+nombres);
+                    
+                    VentanaEditar ventanaedit = new VentanaEditar();
+                }
+            });
+            
+            final int posicion = i;
+            btnEliminar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    VentanaEliminar ventana = new VentanaEliminar("Estas seguro de Ellimnar a la Persona" + documento );
+                }
+            });
         }
         
     }
@@ -49,7 +93,30 @@ public class TablaBasica extends javax.swing.JFrame {
         
         modelo = (DefaultTableModel) tabla_Datos.getModel();
         
+        tabla_Datos.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
+        tabla_Datos.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
         
+        tabla_Datos.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
+        tabla_Datos.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
+
+        //Tamano de columnas
+        tabla_Datos.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tabla_Datos.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tabla_Datos.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tabla_Datos.getColumnModel().getColumn(3).setPreferredWidth(50);
+        tabla_Datos.getColumnModel().getColumn(4).setPreferredWidth(150);
+        tabla_Datos.getColumnModel().getColumn(5).setPreferredWidth(20);
+        tabla_Datos.getColumnModel().getColumn(6).setPreferredWidth(20);
+
+        tabla_Datos.getTableHeader().setReorderingAllowed(false);
+        tabla_Datos.getTableHeader().setResizingAllowed(false);
+        DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
+        centerRender.setHorizontalAlignment(SwingConstants.CENTER);
+        tabla_Datos.getColumnModel().getColumn(0).setCellRenderer(centerRender);
+        tabla_Datos.getColumnModel().getColumn(3).setCellRenderer(centerRender);
+        
+        //alto de las filas
+        tabla_Datos.setRowHeight(30);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -96,7 +163,7 @@ public class TablaBasica extends javax.swing.JFrame {
         etiqueta_titulo.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         etiqueta_titulo.setForeground(new java.awt.Color(255, 255, 255));
         etiqueta_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etiqueta_titulo.setText("Tabla Basica");
+        etiqueta_titulo.setText("Tabla con Botones");
 
         javax.swing.GroupLayout contenedor_TituloLayout = new javax.swing.GroupLayout(contenedor_Titulo);
         contenedor_Titulo.setLayout(contenedor_TituloLayout);
@@ -151,7 +218,7 @@ public class TablaBasica extends javax.swing.JFrame {
         contenedor_FormularioLayout.setHorizontalGroup(
             contenedor_FormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedor_FormularioLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(99, Short.MAX_VALUE)
                 .addGroup(contenedor_FormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contenedor_FormularioLayout.createSequentialGroup()
                         .addGroup(contenedor_FormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,14 +285,14 @@ public class TablaBasica extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Documento", "Nombres", "Apellidos", "Telefono", "Correo Electronico"
+                "Documento", "Nombres", "Apellidos", "Telefono", "Correo Electronico", "", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -349,20 +416,20 @@ public class TablaBasica extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TablaBasica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaBotones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TablaBasica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaBotones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TablaBasica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaBotones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TablaBasica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaBotones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     
 
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TablaBasica().setVisible(true);
+                new TablaBotones().setVisible(true);
             }
         });
     }
