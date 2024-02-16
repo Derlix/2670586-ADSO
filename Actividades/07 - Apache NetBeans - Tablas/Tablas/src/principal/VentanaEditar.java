@@ -10,7 +10,7 @@ public class VentanaEditar extends javax.swing.JFrame {
     String texto;
     TablaBotones ventana;
     
-    public VentanaEditar(TablaBotones tabla,Persona persona) {
+    public VentanaEditar(TablaBotones tabla,Persona persona,String texto) {
         this.ventana = tabla;
         this.texto = texto;
         this.persona = persona;
@@ -20,7 +20,7 @@ public class VentanaEditar extends javax.swing.JFrame {
 
     public void componentes(){
         
-        setTitle(" Confirmación de eliminación ");
+        setTitle(" Edicion de Persona ");
         
         etiqueta_texto.setText(texto);
         setVisible(true);
@@ -29,11 +29,11 @@ public class VentanaEditar extends javax.swing.JFrame {
         revalidate();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         
-        campo_Documento.setText(persona.getDocumento());
-        campo_Nombres.setText(persona.getNombres());
-        campo_Apellidos.setText(persona.getApellidos());
-        campo_Telefono.setText(persona.getTelefono());
-        campo_Correo.setText(persona.getCorreo());
+        campo_documentoedit.setText(persona.getDocumento());
+        campon_nombreedit.setText(persona.getNombres());
+        campo_apellidosedit.setText(persona.getApellidos());
+        campo_telefonoedit.setText(persona.getTelefono());
+        campo_correoedit.setText(persona.getCorreo());
         
         ventana.imprimirPersonas();
     }
@@ -51,15 +51,15 @@ public class VentanaEditar extends javax.swing.JFrame {
         etiqueta_texto = new javax.swing.JLabel();
         contenedor_Formulario17 = new javax.swing.JPanel();
         etiqueta_Documento17 = new javax.swing.JLabel();
-        campo_documento1 = new javax.swing.JTextField();
+        campo_documentoedit = new javax.swing.JTextField();
         etiqueta_Nombres17 = new javax.swing.JLabel();
-        campon_nombre = new javax.swing.JTextField();
+        campon_nombreedit = new javax.swing.JTextField();
         etiqueta_Apellidos17 = new javax.swing.JLabel();
-        campo_apellidos = new javax.swing.JTextField();
+        campo_apellidosedit = new javax.swing.JTextField();
         etiqueta_Telefono17 = new javax.swing.JLabel();
-        campo_telefono = new javax.swing.JTextField();
+        campo_telefonoedit = new javax.swing.JTextField();
         etiqueta_Correo17 = new javax.swing.JLabel();
-        campo_correo = new javax.swing.JTextField();
+        campo_correoedit = new javax.swing.JTextField();
         botonCancelar = new javax.swing.JToggleButton();
         BotonAgregar = new javax.swing.JToggleButton();
 
@@ -105,27 +105,27 @@ public class VentanaEditar extends javax.swing.JFrame {
         etiqueta_Documento17.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         etiqueta_Documento17.setText("Documento:");
 
-        campo_documento1.setToolTipText("");
+        campo_documentoedit.setToolTipText("");
 
         etiqueta_Nombres17.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         etiqueta_Nombres17.setText("Nombres:");
 
-        campon_nombre.setToolTipText("");
+        campon_nombreedit.setToolTipText("");
 
         etiqueta_Apellidos17.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         etiqueta_Apellidos17.setText("Apellidos:");
 
-        campo_apellidos.setToolTipText("");
+        campo_apellidosedit.setToolTipText("");
 
         etiqueta_Telefono17.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         etiqueta_Telefono17.setText("Telefono:");
 
-        campo_telefono.setToolTipText("");
+        campo_telefonoedit.setToolTipText("");
 
         etiqueta_Correo17.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         etiqueta_Correo17.setText("Correo Elct:");
 
-        campo_correo.setToolTipText("");
+        campo_correoedit.setToolTipText("");
 
         botonCancelar.setBackground(new java.awt.Color(102, 102, 255));
         botonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -164,24 +164,24 @@ public class VentanaEditar extends javax.swing.JFrame {
                             .addGroup(contenedor_Formulario17Layout.createSequentialGroup()
                                 .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(etiqueta_Documento17, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campo_documento1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(campo_documentoedit, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(etiqueta_Nombres17, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campon_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(campon_nombreedit, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(etiqueta_Apellidos17, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campo_apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(campo_apellidosedit, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(contenedor_Formulario17Layout.createSequentialGroup()
                         .addGap(146, 146, 146)
                         .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(etiqueta_Telefono17, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campo_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(campo_telefonoedit, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(etiqueta_Correo17, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campo_correo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(campo_correoedit, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         contenedor_Formulario17Layout.setVerticalGroup(
@@ -200,17 +200,17 @@ public class VentanaEditar extends javax.swing.JFrame {
                         .addComponent(etiqueta_Documento17)
                         .addGap(1, 1, 1)))
                 .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(campo_documento1)
-                    .addComponent(campon_nombre, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(campo_apellidos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campo_documentoedit)
+                    .addComponent(campon_nombreedit, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(campo_apellidosedit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(etiqueta_Correo17)
                     .addComponent(etiqueta_Telefono17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campo_telefono)
-                    .addComponent(campo_correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campo_telefonoedit)
+                    .addComponent(campo_correoedit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(contenedor_Formulario17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,7 +241,19 @@ public class VentanaEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
-        // TODO add your handling code here:
+        String documento = campo_documentoedit.getText();
+        String nombres = campon_nombreedit.getText();
+        String apellidos = campo_apellidosedit.getText();
+        String telefono = campo_telefonoedit.getText();
+        String correo = campo_correoedit.getText();
+          
+        if( documento.equalsIgnoreCase("") && nombres.equalsIgnoreCase("")&& telefono.equalsIgnoreCase("") && apellidos.equalsIgnoreCase("")&& correo.equalsIgnoreCase("") ){
+            
+            Alerta ventana = new Alerta(" Todos los campos son obligatorios");
+            
+        }else{
+           
+        }
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
      private VentanaEditar(){
@@ -286,221 +298,17 @@ public class VentanaEditar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BotonAgregar;
     private javax.swing.JToggleButton botonCancelar;
-    private javax.swing.JToggleButton boton_agregar;
-    private javax.swing.JToggleButton boton_agregar1;
-    private javax.swing.JToggleButton boton_agregar10;
-    private javax.swing.JToggleButton boton_agregar11;
-    private javax.swing.JToggleButton boton_agregar12;
-    private javax.swing.JToggleButton boton_agregar13;
-    private javax.swing.JToggleButton boton_agregar14;
-    private javax.swing.JToggleButton boton_agregar15;
-    private javax.swing.JToggleButton boton_agregar16;
-    private javax.swing.JToggleButton boton_agregar2;
-    private javax.swing.JToggleButton boton_agregar3;
-    private javax.swing.JToggleButton boton_agregar4;
-    private javax.swing.JToggleButton boton_agregar5;
-    private javax.swing.JToggleButton boton_agregar6;
-    private javax.swing.JToggleButton boton_agregar7;
-    private javax.swing.JToggleButton boton_agregar8;
-    private javax.swing.JToggleButton boton_agregar9;
-    private javax.swing.JTextField campo_Apellidos;
-    private javax.swing.JTextField campo_Apellidos1;
-    private javax.swing.JTextField campo_Apellidos10;
-    private javax.swing.JTextField campo_Apellidos11;
-    private javax.swing.JTextField campo_Apellidos12;
-    private javax.swing.JTextField campo_Apellidos13;
-    private javax.swing.JTextField campo_Apellidos14;
-    private javax.swing.JTextField campo_Apellidos15;
-    private javax.swing.JTextField campo_Apellidos16;
-    private javax.swing.JTextField campo_Apellidos2;
-    private javax.swing.JTextField campo_Apellidos3;
-    private javax.swing.JTextField campo_Apellidos4;
-    private javax.swing.JTextField campo_Apellidos5;
-    private javax.swing.JTextField campo_Apellidos6;
-    private javax.swing.JTextField campo_Apellidos7;
-    private javax.swing.JTextField campo_Apellidos8;
-    private javax.swing.JTextField campo_Apellidos9;
-    private javax.swing.JTextField campo_Correo;
-    private javax.swing.JTextField campo_Correo1;
-    private javax.swing.JTextField campo_Correo10;
-    private javax.swing.JTextField campo_Correo11;
-    private javax.swing.JTextField campo_Correo12;
-    private javax.swing.JTextField campo_Correo13;
-    private javax.swing.JTextField campo_Correo14;
-    private javax.swing.JTextField campo_Correo15;
-    private javax.swing.JTextField campo_Correo16;
-    private javax.swing.JTextField campo_Correo2;
-    private javax.swing.JTextField campo_Correo3;
-    private javax.swing.JTextField campo_Correo4;
-    private javax.swing.JTextField campo_Correo5;
-    private javax.swing.JTextField campo_Correo6;
-    private javax.swing.JTextField campo_Correo7;
-    private javax.swing.JTextField campo_Correo8;
-    private javax.swing.JTextField campo_Correo9;
-    private javax.swing.JTextField campo_Documento;
-    private javax.swing.JTextField campo_Documento1;
-    private javax.swing.JTextField campo_Documento10;
-    private javax.swing.JTextField campo_Documento11;
-    private javax.swing.JTextField campo_Documento12;
-    private javax.swing.JTextField campo_Documento13;
-    private javax.swing.JTextField campo_Documento14;
-    private javax.swing.JTextField campo_Documento15;
-    private javax.swing.JTextField campo_Documento16;
-    private javax.swing.JTextField campo_Documento2;
-    private javax.swing.JTextField campo_Documento3;
-    private javax.swing.JTextField campo_Documento4;
-    private javax.swing.JTextField campo_Documento5;
-    private javax.swing.JTextField campo_Documento6;
-    private javax.swing.JTextField campo_Documento7;
-    private javax.swing.JTextField campo_Documento8;
-    private javax.swing.JTextField campo_Documento9;
-    private javax.swing.JTextField campo_Nombres;
-    private javax.swing.JTextField campo_Nombres1;
-    private javax.swing.JTextField campo_Nombres10;
-    private javax.swing.JTextField campo_Nombres11;
-    private javax.swing.JTextField campo_Nombres12;
-    private javax.swing.JTextField campo_Nombres13;
-    private javax.swing.JTextField campo_Nombres14;
-    private javax.swing.JTextField campo_Nombres15;
-    private javax.swing.JTextField campo_Nombres16;
-    private javax.swing.JTextField campo_Nombres2;
-    private javax.swing.JTextField campo_Nombres3;
-    private javax.swing.JTextField campo_Nombres4;
-    private javax.swing.JTextField campo_Nombres5;
-    private javax.swing.JTextField campo_Nombres6;
-    private javax.swing.JTextField campo_Nombres7;
-    private javax.swing.JTextField campo_Nombres8;
-    private javax.swing.JTextField campo_Nombres9;
-    private javax.swing.JTextField campo_Telefono;
-    private javax.swing.JTextField campo_Telefono1;
-    private javax.swing.JTextField campo_Telefono10;
-    private javax.swing.JTextField campo_Telefono11;
-    private javax.swing.JTextField campo_Telefono12;
-    private javax.swing.JTextField campo_Telefono13;
-    private javax.swing.JTextField campo_Telefono14;
-    private javax.swing.JTextField campo_Telefono15;
-    private javax.swing.JTextField campo_Telefono16;
-    private javax.swing.JTextField campo_Telefono2;
-    private javax.swing.JTextField campo_Telefono3;
-    private javax.swing.JTextField campo_Telefono4;
-    private javax.swing.JTextField campo_Telefono5;
-    private javax.swing.JTextField campo_Telefono6;
-    private javax.swing.JTextField campo_Telefono7;
-    private javax.swing.JTextField campo_Telefono8;
-    private javax.swing.JTextField campo_Telefono9;
-    private javax.swing.JTextField campo_apellidos;
-    private javax.swing.JTextField campo_correo;
-    private javax.swing.JTextField campo_documento1;
-    private javax.swing.JTextField campo_telefono;
-    private javax.swing.JTextField campon_nombre;
-    private javax.swing.JPanel contenedor_Formulario;
-    private javax.swing.JPanel contenedor_Formulario1;
-    private javax.swing.JPanel contenedor_Formulario10;
-    private javax.swing.JPanel contenedor_Formulario11;
-    private javax.swing.JPanel contenedor_Formulario12;
-    private javax.swing.JPanel contenedor_Formulario13;
-    private javax.swing.JPanel contenedor_Formulario14;
-    private javax.swing.JPanel contenedor_Formulario15;
-    private javax.swing.JPanel contenedor_Formulario16;
+    private javax.swing.JTextField campo_apellidosedit;
+    private javax.swing.JTextField campo_correoedit;
+    private javax.swing.JTextField campo_documentoedit;
+    private javax.swing.JTextField campo_telefonoedit;
+    private javax.swing.JTextField campon_nombreedit;
     private javax.swing.JPanel contenedor_Formulario17;
-    private javax.swing.JPanel contenedor_Formulario2;
-    private javax.swing.JPanel contenedor_Formulario3;
-    private javax.swing.JPanel contenedor_Formulario4;
-    private javax.swing.JPanel contenedor_Formulario5;
-    private javax.swing.JPanel contenedor_Formulario6;
-    private javax.swing.JPanel contenedor_Formulario7;
-    private javax.swing.JPanel contenedor_Formulario8;
-    private javax.swing.JPanel contenedor_Formulario9;
-    private javax.swing.JLabel etiqueta_Apellidos;
-    private javax.swing.JLabel etiqueta_Apellidos1;
-    private javax.swing.JLabel etiqueta_Apellidos10;
-    private javax.swing.JLabel etiqueta_Apellidos11;
-    private javax.swing.JLabel etiqueta_Apellidos12;
-    private javax.swing.JLabel etiqueta_Apellidos13;
-    private javax.swing.JLabel etiqueta_Apellidos14;
-    private javax.swing.JLabel etiqueta_Apellidos15;
-    private javax.swing.JLabel etiqueta_Apellidos16;
     private javax.swing.JLabel etiqueta_Apellidos17;
-    private javax.swing.JLabel etiqueta_Apellidos2;
-    private javax.swing.JLabel etiqueta_Apellidos3;
-    private javax.swing.JLabel etiqueta_Apellidos4;
-    private javax.swing.JLabel etiqueta_Apellidos5;
-    private javax.swing.JLabel etiqueta_Apellidos6;
-    private javax.swing.JLabel etiqueta_Apellidos7;
-    private javax.swing.JLabel etiqueta_Apellidos8;
-    private javax.swing.JLabel etiqueta_Apellidos9;
-    private javax.swing.JLabel etiqueta_Correo;
-    private javax.swing.JLabel etiqueta_Correo1;
-    private javax.swing.JLabel etiqueta_Correo10;
-    private javax.swing.JLabel etiqueta_Correo11;
-    private javax.swing.JLabel etiqueta_Correo12;
-    private javax.swing.JLabel etiqueta_Correo13;
-    private javax.swing.JLabel etiqueta_Correo14;
-    private javax.swing.JLabel etiqueta_Correo15;
-    private javax.swing.JLabel etiqueta_Correo16;
     private javax.swing.JLabel etiqueta_Correo17;
-    private javax.swing.JLabel etiqueta_Correo2;
-    private javax.swing.JLabel etiqueta_Correo3;
-    private javax.swing.JLabel etiqueta_Correo4;
-    private javax.swing.JLabel etiqueta_Correo5;
-    private javax.swing.JLabel etiqueta_Correo6;
-    private javax.swing.JLabel etiqueta_Correo7;
-    private javax.swing.JLabel etiqueta_Correo8;
-    private javax.swing.JLabel etiqueta_Correo9;
-    private javax.swing.JLabel etiqueta_Documento;
-    private javax.swing.JLabel etiqueta_Documento1;
-    private javax.swing.JLabel etiqueta_Documento10;
-    private javax.swing.JLabel etiqueta_Documento11;
-    private javax.swing.JLabel etiqueta_Documento12;
-    private javax.swing.JLabel etiqueta_Documento13;
-    private javax.swing.JLabel etiqueta_Documento14;
-    private javax.swing.JLabel etiqueta_Documento15;
-    private javax.swing.JLabel etiqueta_Documento16;
     private javax.swing.JLabel etiqueta_Documento17;
-    private javax.swing.JLabel etiqueta_Documento2;
-    private javax.swing.JLabel etiqueta_Documento3;
-    private javax.swing.JLabel etiqueta_Documento4;
-    private javax.swing.JLabel etiqueta_Documento5;
-    private javax.swing.JLabel etiqueta_Documento6;
-    private javax.swing.JLabel etiqueta_Documento7;
-    private javax.swing.JLabel etiqueta_Documento8;
-    private javax.swing.JLabel etiqueta_Documento9;
-    private javax.swing.JLabel etiqueta_Nombres;
-    private javax.swing.JLabel etiqueta_Nombres1;
-    private javax.swing.JLabel etiqueta_Nombres10;
-    private javax.swing.JLabel etiqueta_Nombres11;
-    private javax.swing.JLabel etiqueta_Nombres12;
-    private javax.swing.JLabel etiqueta_Nombres13;
-    private javax.swing.JLabel etiqueta_Nombres14;
-    private javax.swing.JLabel etiqueta_Nombres15;
-    private javax.swing.JLabel etiqueta_Nombres16;
     private javax.swing.JLabel etiqueta_Nombres17;
-    private javax.swing.JLabel etiqueta_Nombres2;
-    private javax.swing.JLabel etiqueta_Nombres3;
-    private javax.swing.JLabel etiqueta_Nombres4;
-    private javax.swing.JLabel etiqueta_Nombres5;
-    private javax.swing.JLabel etiqueta_Nombres6;
-    private javax.swing.JLabel etiqueta_Nombres7;
-    private javax.swing.JLabel etiqueta_Nombres8;
-    private javax.swing.JLabel etiqueta_Nombres9;
-    private javax.swing.JLabel etiqueta_Telefono;
-    private javax.swing.JLabel etiqueta_Telefono1;
-    private javax.swing.JLabel etiqueta_Telefono10;
-    private javax.swing.JLabel etiqueta_Telefono11;
-    private javax.swing.JLabel etiqueta_Telefono12;
-    private javax.swing.JLabel etiqueta_Telefono13;
-    private javax.swing.JLabel etiqueta_Telefono14;
-    private javax.swing.JLabel etiqueta_Telefono15;
-    private javax.swing.JLabel etiqueta_Telefono16;
     private javax.swing.JLabel etiqueta_Telefono17;
-    private javax.swing.JLabel etiqueta_Telefono2;
-    private javax.swing.JLabel etiqueta_Telefono3;
-    private javax.swing.JLabel etiqueta_Telefono4;
-    private javax.swing.JLabel etiqueta_Telefono5;
-    private javax.swing.JLabel etiqueta_Telefono6;
-    private javax.swing.JLabel etiqueta_Telefono7;
-    private javax.swing.JLabel etiqueta_Telefono8;
-    private javax.swing.JLabel etiqueta_Telefono9;
     private javax.swing.JLabel etiqueta_texto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

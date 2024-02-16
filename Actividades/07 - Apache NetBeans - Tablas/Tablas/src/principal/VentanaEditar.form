@@ -125,17 +125,17 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="etiqueta_Documento17" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                                      <Component id="campo_documento1" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
+                                      <Component id="campo_documentoedit" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="etiqueta_Nombres17" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                                      <Component id="campon_nombre" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
+                                      <Component id="campon_nombreedit" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="etiqueta_Apellidos17" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                                      <Component id="campo_apellidos" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
+                                      <Component id="campo_apellidosedit" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -144,12 +144,12 @@
                           <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="etiqueta_Telefono17" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                              <Component id="campo_telefono" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
+                              <Component id="campo_telefonoedit" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="etiqueta_Correo17" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                              <Component id="campo_correo" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
+                              <Component id="campo_correoedit" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -178,9 +178,9 @@
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="campo_documento1" alignment="1" max="32767" attributes="0"/>
-                      <Component id="campon_nombre" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campo_apellidos" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
+                      <Component id="campo_documentoedit" alignment="1" max="32767" attributes="0"/>
+                      <Component id="campon_nombreedit" alignment="0" max="32767" attributes="0"/>
+                      <Component id="campo_apellidosedit" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -189,8 +189,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campo_telefono" alignment="3" max="32767" attributes="0"/>
-                      <Component id="campo_correo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campo_telefonoedit" alignment="3" max="32767" attributes="0"/>
+                      <Component id="campo_correoedit" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -211,7 +211,7 @@
             <Property name="text" type="java.lang.String" value="Documento:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campo_documento1">
+        <Component class="javax.swing.JTextField" name="campo_documentoedit">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
@@ -224,7 +224,7 @@
             <Property name="text" type="java.lang.String" value="Nombres:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campon_nombre">
+        <Component class="javax.swing.JTextField" name="campon_nombreedit">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
@@ -237,7 +237,7 @@
             <Property name="text" type="java.lang.String" value="Apellidos:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campo_apellidos">
+        <Component class="javax.swing.JTextField" name="campo_apellidosedit">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
@@ -250,7 +250,7 @@
             <Property name="text" type="java.lang.String" value="Telefono:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campo_telefono">
+        <Component class="javax.swing.JTextField" name="campo_telefonoedit">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
@@ -263,7 +263,7 @@
             <Property name="text" type="java.lang.String" value="Correo Elct:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campo_correo">
+        <Component class="javax.swing.JTextField" name="campo_correoedit">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>

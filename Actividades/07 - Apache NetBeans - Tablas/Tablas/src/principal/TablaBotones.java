@@ -23,9 +23,12 @@ public class TablaBotones extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
     Persona listaPersonas[];
+    TablaBotones ventana;
+    int posicion;
     
     public TablaBotones() {
-        listaPersonas = new Persona[100];
+        this.ventana = this;
+        listaPersonas = new Persona[101];
         listaPersonas[0] = new Persona("1089378334","Christian","Arias","3212898067","christian@gmail.com");
         listaPersonas[1] = new Persona("421005","Pepito","Sanchez","3218888880","sanchezpepito@gmail.com");
         listaPersonas[2] = new Persona("992423","Kurt","Cobain","3233356232","kurtcockbain@gmail.com");
@@ -66,9 +69,18 @@ public class TablaBotones extends javax.swing.JFrame {
             btnEditar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println(" Nombres: "+nombres);
-                    
-                    VentanaEditar ventanaedit = new VentanaEditar();
+                    int filaSeleccionada = tabla_Datos.getSelectedRow();
+                    if (filaSeleccionada != -1) {
+                    String documento = (String) modelo.getValueAt(filaSeleccionada, 0);
+                    String nombres = (String) modelo.getValueAt(filaSeleccionada, 1);
+                    String apellidos = (String) modelo.getValueAt(filaSeleccionada, 2);
+                    String telefono = (String) modelo.getValueAt(filaSeleccionada, 3);
+                    String correo = (String) modelo.getValueAt(filaSeleccionada, 4);
+            
+                    VentanaEditar ventanaedit = new VentanaEditar(ventana , new Persona(documento, nombres, apellidos, telefono, correo), "texto");
+                    } else {
+                    System.out.println("No se ha seleccionado ninguna fila.");
+                    }
                 }
             });
             
@@ -76,7 +88,7 @@ public class TablaBotones extends javax.swing.JFrame {
             btnEliminar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    VentanaEliminar ventana = new VentanaEliminar("Estas seguro de Ellimnar a la Persona" + documento );
+                    VentanaEliminar ventanaEliminar = new VentanaEliminar(ventana, listaPersonas,posicion,"Estas seguro de eliminar a esta persona: "+documento);
                 }
             });
         }
@@ -352,12 +364,6 @@ public class TablaBotones extends javax.swing.JFrame {
         String telefono = campo_Telefono.getText();
         String correo = campo_Correo.getText();
         
-        
-        
-        
-        
-            
-        
         if( documento.equalsIgnoreCase("") && nombres.equalsIgnoreCase("")&& telefono.equalsIgnoreCase("") && apellidos.equalsIgnoreCase("")&& correo.equalsIgnoreCase("") ){
             
             Alerta ventana = new Alerta(" Todos los campos son obligatorios");
@@ -390,17 +396,8 @@ public class TablaBotones extends javax.swing.JFrame {
                 campo_Telefono.setText("");
                 campo_Nombres.setText("");
                 campo_Documento.requestFocus();
-            }
-            
-            
+            }            
         }
-        
-        
-        
-        
-        
-        
-        
     }//GEN-LAST:event_boton_agregarActionPerformed
 
     

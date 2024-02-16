@@ -9,7 +9,7 @@ public class VentanaEliminar extends javax.swing.JFrame {
     TablaBotones ventana;
     Persona listaPersonas[];
     int posicion;
-    public VentanaEliminar(String texto ,TablaBotones ventana,Persona [] listaPersonas,int posicion) {
+    public VentanaEliminar(TablaBotones ventana,Persona [] listaPersonas,int posicion, String texto) {
         this.texto = texto;
         this.ventana = ventana;
         this.listaPersonas = listaPersonas;
@@ -138,14 +138,27 @@ public class VentanaEliminar extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
-        for(int i = posicion; i<listaPersonas.length-1;i++){
-            listaPersonas[i] = listaPersonas[i+1];
-        }
-        listaPersonas[listaPersonas.length-1] = null;
-        
-        ventana.imprimirPersonas();
-        dispose();
+      // Elimina la persona en la posición indicada
+    listaPersonas[posicion] = null;
+
+    // Mueve los elementos restantes hacia la izquierda
+    for (int i = posicion; i < listaPersonas.length - 1; i++) {
+        listaPersonas[i] = listaPersonas[i + 1];
+    }
+
+    // Redimensiona el arreglo eliminando el último elemento
+    Persona[] nuevaLista = new Persona[listaPersonas.length - 1];
+    System.arraycopy(listaPersonas, 0, nuevaLista, 0, posicion);
+    System.arraycopy(listaPersonas, posicion + 1, nuevaLista, posicion, listaPersonas.length - posicion - 1);
+    listaPersonas = nuevaLista;
+
+    // Actualiza la interfaz gráfica
+    ventana.imprimirPersonas();
+    dispose();
     }//GEN-LAST:event_EliminarActionPerformed
+
+    
+   
 
     private VentanaEliminar(){
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
