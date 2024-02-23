@@ -30,10 +30,7 @@ public class Menu extends javax.swing.JFrame {
    
     Fuentes fuenteTipo;
     Fondopanel fondo = new Fondopanel();
-
-    /**
-     * Creates new form Menu
-     */
+    
     public Menu() {
         this.setContentPane(fondo);
         fuenteTipo = new Fuentes();
@@ -407,7 +404,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boton_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_eliminarActionPerformed
-        // TODO add your handling code here:
+        Eliminar ventana = new Eliminar();
     }//GEN-LAST:event_boton_eliminarActionPerformed
 
     private void boton_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_agregarActionPerformed
@@ -420,37 +417,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_leerActionPerformed
 
     private void boton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_actualizarActionPerformed
-        // TODO add your handling code here:
+        Editar edit = new Editar();
     }//GEN-LAST:event_boton_actualizarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Menu().setVisible(true);
@@ -494,8 +466,8 @@ public class Menu extends javax.swing.JFrame {
             super.paint(g);
         }
     }
-   class RoundedPanel extends JPanel
-    {
+    
+    class RoundedPanel extends JPanel{
         private Color backgroundColor;
         private int cornerRadius = 15;
         public RoundedPanel(LayoutManager layout, int radius) {
@@ -538,8 +510,6 @@ public class Menu extends javax.swing.JFrame {
 //            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
 //             
         }
-        
-    }
-   
+  
+    } 
 }
-

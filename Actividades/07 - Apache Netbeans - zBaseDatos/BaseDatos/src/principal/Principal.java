@@ -10,7 +10,7 @@ public class Principal {
         
         //basedatos.insertarPersona("1089378334", "Christian David", "Arias Loaiza", "3212898067", "Calle 20 ", "elpepe@gmail.com");
 
-        //basedatos.actualizarPersona("108800", "Juanito", "Perez", "32233", "carrera 1era", "juanito@gmail.com");
+        //basedatos.actualizarPersona("1089", "Juanito", "Perez", "32233", "carrera 1era", "juanito@gmail.com");
        // basedatos.eliminarPersona("1089378334");
         //Persona listado [] = basedatos.extraerPersonas();
         //Recorre y muestra el arreglo 

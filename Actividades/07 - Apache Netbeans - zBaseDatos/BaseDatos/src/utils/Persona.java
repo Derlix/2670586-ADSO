@@ -6,16 +6,20 @@ public class Persona {
     String nombres;
     String apellidos;
     String telefono;
+    String direccion;
     String correo;
 
-    public Persona(String documento, String nombres, String apellidos, String telefono, String correo) {
+    public Persona(String documento, String nombres, String apellidos, String telefono,String direccion, String correo) {
         this.documento = documento;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
+        this.direccion = direccion;
         this.correo = correo;
     }
 
+    
+    
     public String getDocumento() {
         return documento;
     }
@@ -46,6 +50,14 @@ public class Persona {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+    
+    public String getDireccion(){
+        return direccion;
+    }
+    
+    public void setDireccion(String direccion){
+        this.direccion = direccion;
     }
 
     public String getCorreo() {
