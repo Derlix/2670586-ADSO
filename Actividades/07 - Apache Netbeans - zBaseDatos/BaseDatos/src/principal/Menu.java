@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
-import utils.Agregar;
 import tipografias.Fuentes;
 import utils.*;
 
@@ -145,7 +144,7 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelPrincipal = new RoundedPanel(50, Color.GRAY);
+        PanelPrincipal = new RoundedPanel(50, Color.black);
         panelAgregar = new javax.swing.JPanel();
         boton_agregar = new javax.swing.JToggleButton();
         etq_agregar = new javax.swing.JLabel();
@@ -368,11 +367,16 @@ public class Menu extends javax.swing.JFrame {
         paneetqmenu.setLayout(paneetqmenuLayout);
         paneetqmenuLayout.setHorizontalGroup(
             paneetqmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(etqTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+            .addGroup(paneetqmenuLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(etqTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addGap(28, 28, 28))
         );
         paneetqmenuLayout.setVerticalGroup(
             paneetqmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(etqTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneetqmenuLayout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(etqTitulo))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -387,14 +391,14 @@ public class Menu extends javax.swing.JFrame {
                         .addGap(100, 100, 100))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(paneetqmenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(167, 167, 167))))
+                        .addGap(197, 197, 197))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
+                .addContainerGap(61, Short.MAX_VALUE)
                 .addComponent(paneetqmenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(34, 34, 34)
                 .addComponent(PanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
@@ -411,7 +415,8 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_agregarActionPerformed
 
     private void boton_leerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_leerActionPerformed
-        // TODO add your handling code here:
+        
+        Leer pepe = new Leer();
     }//GEN-LAST:event_boton_leerActionPerformed
 
     private void boton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_actualizarActionPerformed
