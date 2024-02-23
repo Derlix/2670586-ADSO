@@ -50,6 +50,8 @@ public class Menu extends javax.swing.JFrame {
     }
     
     public void transparencia(){
+        
+        setIconImage( getToolkit().createImage( ClassLoader.getSystemResource("imagenes/icono.png") ) );
         boton_agregar.setOpaque(false);
         boton_agregar.setContentAreaFilled(false);
         boton_agregar.setBorderPainted(false);

@@ -26,6 +26,9 @@ public class Agregar extends javax.swing.JFrame {
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Agregando Persona ");
+        contenedorFormulario.setOpaque(false);
+        contenedorTitulo.setOpaque(false);
+        setIconImage( getToolkit().createImage( ClassLoader.getSystemResource("imagenes/icono.png") ) );
     }
 
    
