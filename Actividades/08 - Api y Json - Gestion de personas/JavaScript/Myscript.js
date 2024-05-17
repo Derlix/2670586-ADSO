@@ -1,13 +1,6 @@
 window.onload = function() {
     cargarPersonas();
 
-    nuevaCedula =document.getElementById('updateCedula')
-    nuevoNombre = document.getElementById('updateNombres')
-    nuevoApellido = document.getElementById('updateApellidos')
-    nuevoTelefono = document.getElementById('updateTelefono')
-    nuevaDireccion = document.getElementById('updateDireccion')
-    nuevoEmail = document.getElementById('updateEmail')
-    document.getElementById('cerrarModalBoton').addEventListener('click', ocultarModal);
 }
 
 function cargarPersonas(){
@@ -28,7 +21,7 @@ function cargarPersonas(){
             }
 
             let html_temporal = `<div class="col-md-4">
-                                    <div class="card" style="width: 18rem;">
+                                    <div class="card mb-4" style="width: 100%; ">
                                         <img src="IMG/defaultImg.jpg" class="card-img-top" alt="Imagen de ${persona.nombres}">
                                         <div class="card-body">
                                             <h5 class="card-title">${persona.nombres} ${persona.apellidos}</h5>
@@ -38,7 +31,6 @@ function cargarPersonas(){
                                                 Dirección: ${persona.direccion}<br>
                                                 Email: ${persona.email}
                                             </p>
-                                            <button class="btn btn-secondary" onclick='actualizarPersona(${JSON.stringify(persona)})'>Actualizar</button>
                                             <button class="btn btn-danger" onclick="eliminarPersona(${persona.cedula})">Eliminar</button>
                                         </div>
                                     </div>
@@ -83,21 +75,34 @@ function insertarPersona(){
         cargarPersonas();
     });
         
-    
-
 
 }
 
-function actualizarPersona(persona){
-    document.getElementById('updateCedula').value = persona.cedula;
-    document.getElementById('updateNombres').value = persona.nombres;
-    document.getElementById('updateApellidos').value = persona.apellidos;
-    document.getElementById('updateTelefono').value = persona.telefono;
-    document.getElementById('updateDireccion').value = persona.direccion;
-    document.getElementById('updateEmail').value = persona.email;
+function actualizarPersona(){
+    let datos = new FormData();
+    datos.append("cedula",1089378334);
+    datos.append("nombres","pompompurin");
+    datos.append("apellidos","roll");
+    datos.append("telefono","no tengo");
+    datos.append("direccion","japan")
+    datos.append("email","pompurin@gmail.com");
 
-    mostrarModal();
+    let configuracion = {
+                            method: "POST",
+                            headers: {
+                                "Accept": "application/json",
+                            },
+                            body: datos,
+                        };
+    fetch("https://codetesthub.com/API/Actualizar.php", configuracion)
+    .then(res => res.json())
+    .then(data => {
+        console.log('Respuesta Json server');
+        console.log(data);
+        cargarPersonas();
+    });
 }
+
 
 function eliminarPersona(cedula){
     let datos = new FormData();
@@ -145,7 +150,6 @@ function enviarActualizacion() {
         .then(res => res.json())
         .then(data => {
             console.log('Respuesta Json del servidor', data);
-            ocultarModal(); // Cierra el modal después de la actualización
             cargarPersonas();
         })
         .catch(error => console.error('Error al actualizar:', error));
