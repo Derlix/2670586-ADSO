@@ -1,6 +1,8 @@
+let imagencarga;
+
 window.onload = function() {
     cargarPersonas();
-
+    imagencarga = document.getElementById('imagenCarga');
 }
 
 function cargarPersonas(){
@@ -9,10 +11,10 @@ function cargarPersonas(){
     .then(data => {
         console.log('Respuesta Json del servidor');
         console.log(data);
-
+        imagencarga.style.display = 'block';
         let htmlContent = '';
         data.forEach((persona, index) => {
-            
+            imagencarga.style.display = 'none';
             if (index % 3 === 0) {
                 if (index !== 0) {
                     htmlContent += '</div>'; // Cierra la fila anterior, excepto al principio
