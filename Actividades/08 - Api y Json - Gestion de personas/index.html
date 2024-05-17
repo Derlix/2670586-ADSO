@@ -5,65 +5,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion Personas</title>
-    <script type="text/javascript" src="JavaScript/Myscript.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="Css/Style.css">
 </head>
 
 <body>
-    
     <div class="container botones">
-        <button class="btn btn-primary" onclick="insertarPersona()">Insertar Persona</button>
-        <button class="btn btn-secondary" onclick="actualizarPersona()">Actualizar Persona</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInsertar">Insertar Persona</button>
     </div>
     <div id="contentPrincipal" class="container row">
         <img id="imagenCarga" src="IMG/image_processing20200419-17345-1ly05bi.gif" alt="">
     </div>
 
-    <div class="modal" tabindex="-1" role="dialog" id="modalActualizar">
-        <div class="modal-dialog" role="document">
+    <!-- Modal Insertar -->
+    <div class="modal fade" id="modalInsertar" tabindex="-1" aria-labelledby="modalInsertarLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Actualizar Persona</h5>
-
+                    <h5 class="modal-title" id="modalInsertarLabel">Insertar Persona</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formActualizar">
-                        <input type="hidden" id="updateCedula">
-                        <div class="form-group">
-                            <label for="nuevosNombres">Nombres:</label>
-                            <input type="text" class="form-control" id="updateNombres">
+                    <form id="formInsertar">
+                        <div class="mb-3">
+                            <label for="insertarCedula" class="form-label">Cédula</label>
+                            <input type="text" class="form-control" id="insertarCedula" name="cedula">
                         </div>
-                        <div class="form-group">
-                            <label for="nuevosApellidos">Apellidos:</label>
-                            <input type="text" class="form-control" id="updateApellidos">
+                        <div class="mb-3">
+                            <label for="insertarNombres" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="insertarNombres" name="nombres">
                         </div>
-                        <div class="form-group">
-                            <label for="nuevosTelefono">Teléfono:</label>
-                            <input type="text" class="form-control" id="updateTelefono">
+                        <div class="mb-3">
+                            <label for="insertarApellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="insertarApellidos" name="apellidos">
                         </div>
-                        <div class="form-group">
-                            <label for="nuevaDireccion">Dirección:</label>
-                            <input type="text" class="form-control" id="updateDireccion">
+                        <div class="mb-3">
+                            <label for="insertarTelefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="insertarTelefono" name="telefono">
                         </div>
-                        <div class="form-group">
-                            <label for="nuevoCorreo">Email:</label>
-                            <input type="email" class="form-control" id="updateEmail">
+                        <div class="mb-3">
+                            <label for="insertarDireccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="insertarDireccion" name="direccion">
                         </div>
+                        <div class="mb-3">
+                            <label for="insertarEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="insertarEmail" name="email">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="insertarPersona()">Insertar</button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="enviarActualizacion()">GuardarCambios</button>
-                    <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" id="cerrarModalBoton">
-                        SALIR
-                    </button>
-
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal Actualizar -->
+    <div class="modal fade" id="modalActualizar" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalActualizarLabel">Actualizar Persona</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formActualizar">
+                        <div class="mb-3">
+                            <label for="actualizarCedula" class="form-label">Cédula</label>
+                            <input type="text" class="form-control" id="actualizarCedula" name="cedula" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="actualizarNombres" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="actualizarNombres" name="nombres">
+                        </div>
+                        <div class="mb-3">
+                            <label for="actualizarApellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="actualizarApellidos" name="apellidos">
+                        </div>
+                        <div class="mb-3">
+                            <label for="actualizarTelefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="actualizarTelefono" name="telefono">
+                        </div>
+                        <div class="mb-3">
+                            <label for="actualizarDireccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="actualizarDireccion" name="direccion">
+                        </div>
+                        <div class="mb-3">
+                            <label for="actualizarEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="actualizarEmail" name="email">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="enviarActualizacion()">Actualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JavaScript/Myscript.js"></script>
 </body>
 
 </html>
