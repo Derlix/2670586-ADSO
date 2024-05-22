@@ -121,14 +121,11 @@ public class Pokedex extends javax.swing.JFrame {
 
                     for (int i = 0; i < habilidades.size(); i++) {
                         JsonObject habilidadObj = habilidades.get(i).getAsJsonObject().getAsJsonObject("ability");
-                        JsonObject imagen = habilidades.get(i).getAsJsonObject().getAsJsonObject("dream_world");
                         String nombreHabilidad = habilidadObj.get("name").getAsString();
                         String urlHabilidad = habilidadObj.get("url").getAsString();
-                        String extaerImg = imagen.get("front_default").getAsString();
 
                         Object[] datoHabilidad = new Object[]{i + 1, nombreHabilidad, urlHabilidad};
                         modeloHabilidades.addRow(datoHabilidad);
-                        Imagen_Pokemon.setIcon(extaerImg);
                     }
 
                     // Tamaño de columnas
