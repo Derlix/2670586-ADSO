@@ -1,4 +1,3 @@
-
 package principal;
 
 import com.google.gson.JsonArray;
@@ -12,11 +11,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import util.ConsumoAPI;
 
-
 public class Menu_de_Personas extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
     ConsumoAPI consumo = new ConsumoAPI();
+
     public Menu_de_Personas() {
         initComponents();
         setVisible(true);
@@ -29,14 +28,14 @@ public class Menu_de_Personas extends javax.swing.JFrame {
         botonInsertar.setBackground(null);
     }
 
-   public void altertComponents(){
+    public void altertComponents() {
         modelo = new DefaultTableModel(
                 new Object[][]{},
-                new String[]{"Documento","Nombres","Apellidos","Telefono","Direccion","Correo Electronico"}
+                new String[]{"Documento", "Nombres", "Apellidos", "Telefono", "Direccion", "Correo Electronico"}
         );
-        
+
         tabla_Datos.setModel(modelo);
-        
+
         //Tamano de columnas
         tabla_Datos.getColumnModel().getColumn(0).setPreferredWidth(150);
         tabla_Datos.getColumnModel().getColumn(1).setPreferredWidth(150);
@@ -51,21 +50,20 @@ public class Menu_de_Personas extends javax.swing.JFrame {
         centerRender.setHorizontalAlignment(SwingConstants.CENTER);
         tabla_Datos.getColumnModel().getColumn(0).setCellRenderer(centerRender);
         tabla_Datos.getColumnModel().getColumn(3).setCellRenderer(centerRender);
-        
+
         //alto de las filas
         tabla_Datos.setRowHeight(30);
     }
-   
-   
-   public void imprimirPersonas(){
+
+    public void imprimirPersonas() {
         String respuesta01 = consumo.consumoGET("https://codetesthub.com/API/Obtener.php");
-        System.out.println("Respuesta Obtener: "+ respuesta01 );
+        System.out.println("Respuesta Obtener: " + respuesta01);
 
         modelo.setRowCount(0);
         JsonArray registros = JsonParser.parseString(respuesta01).getAsJsonArray();
-        
+
         for (int i = 0; i < registros.size(); i++) {
-        
+
             JsonObject temp = registros.get(i).getAsJsonObject();
             String cedula = temp.get("cedula").getAsString();
             String nombre = temp.get("nombres").getAsString();
@@ -74,15 +72,13 @@ public class Menu_de_Personas extends javax.swing.JFrame {
             String direccion = temp.get("direccion").getAsString();
             String email = temp.get("email").getAsString();
             System.out.println(nombre + apellidos);
-            Object dato []= new Object[]{cedula,nombre,apellidos,telefono,direccion,email};
+            Object dato[] = new Object[]{cedula, nombre, apellidos, telefono, direccion, email};
             modelo.addRow(dato);
-            
-        
+
         }
-        
-       
-        
+
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -257,20 +253,18 @@ public class Menu_de_Personas extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //Endpoint eliminar
-        
-        Map<String,String> datosEliminar = new HashMap<>();
-        datosEliminar.put("cedula",campo_eliminar.getText());    //Aqui mandamos el endpoint segun la funcion que queramos hacer ↓
-        String respuesta04 = consumo.consumoPOST("https://codetesthub.com/API/Eliminar.php",datosEliminar);
+
+        Map<String, String> datosEliminar = new HashMap<>();
+        datosEliminar.put("cedula", campo_eliminar.getText());    //Aqui mandamos el endpoint segun la funcion que queramos hacer ↓
+        String respuesta04 = consumo.consumoPOST("https://codetesthub.com/API/Eliminar.php", datosEliminar);
         System.out.println("Respuesta actualizar" + respuesta04);
         imprimirPersonas();
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         imprimirPersonas();
     }//GEN-LAST:event_jButton3ActionPerformed
-
-   
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
