@@ -23,18 +23,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.util.List;
 
 public class Pokedex extends javax.swing.JFrame {
 
     ConsumoAPI consumo = new ConsumoAPI();
     DefaultTableModel modelo;
     String respuesta01 = consumo.consumoGET("https://pokeapi.co/api/v2/pokemon");
-
+    List<Image> imagenesPokemon = new ArrayList<>();
+    private int indiceImagenActual = 0;
     public Pokedex() {
         initComponents();
         initAlternComponents();
@@ -77,49 +80,44 @@ public class Pokedex extends javax.swing.JFrame {
     }
 
     public void paginadorMetod() {
- 
-    DefaultTableModel paginadorModelo = new DefaultTableModel(new Object[][]{
-        {"1", "2", "3", "4", "5", "6", "7"}
-    }, new String[]{"1", "2", "3", "4", "5", "6", "7"}) {
-        // Override para hacer las celdas no editables
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
+
+        DefaultTableModel paginadorModelo = new DefaultTableModel(new Object[][]{
+            {"1", "2", "3", "4", "5", "6", "7"}
+        }, new String[]{"1", "2", "3", "4", "5", "6", "7"}) {
+            // Override para hacer las celdas no editables
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        paginador.setModel(paginadorModelo);
+
+        for (int i = 0; i < 7; i++) {
+            paginador.getColumnModel().getColumn(i).setPreferredWidth(50);
         }
-    };
 
- 
-    paginador.setModel(paginadorModelo);
-
-
-    for (int i = 0; i < 7; i++) {
-        paginador.getColumnModel().getColumn(i).setPreferredWidth(50);
-    }
-
-
-    DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
-    centerRender.setHorizontalAlignment(SwingConstants.CENTER);
-    for (int i = 0; i < 7; i++) {
-        paginador.getColumnModel().getColumn(i).setCellRenderer(centerRender);
-    }
-
-
-    paginador.getTableHeader().setReorderingAllowed(false);
-    paginador.getTableHeader().setResizingAllowed(false);
-
-    paginador.getTableHeader().addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            
-            int columnaSeleccionada = paginador.columnAtPoint(e.getPoint());
-            
-            int numeroPagina = columnaSeleccionada + 1;
-           
-            System.out.println("Página seleccionada: " + numeroPagina);
+        DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
+        centerRender.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < 7; i++) {
+            paginador.getColumnModel().getColumn(i).setCellRenderer(centerRender);
         }
-    });
-}
 
+        paginador.getTableHeader().setReorderingAllowed(false);
+        paginador.getTableHeader().setResizingAllowed(false);
+
+        paginador.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                int columnaSeleccionada = paginador.columnAtPoint(e.getPoint());
+
+                int numeroPagina = columnaSeleccionada + 1;
+
+                System.out.println("Página seleccionada: " + numeroPagina);
+            }
+        });
+    }
 
     public void tablaNombres() {
         modelo = new DefaultTableModel(
@@ -177,20 +175,35 @@ public class Pokedex extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent e) {
                 int fila = Tabla_Pokemones.rowAtPoint(e.getPoint());
                 if (fila >= 0) {
-
                     imagenAnterior.setEnabled(true);
                     siguienteImagen.setEnabled(true);
                     String nombrePokemon = (String) modelo.getValueAt(fila, 0);
                     String urlPokemon = (String) modelo.getValueAt(fila, 1);
 
-                    System.out.println("Nombre del Pokémon seleccionado: " + nombrePokemon + ", URL: " + urlPokemon);
-
                     String respuestaHabilidades = consumo.consumoGET(urlPokemon);
-                    System.out.println("Respuesta Habilidades: " + respuestaHabilidades);
-
                     JsonObject jsonObject = JsonParser.parseString(respuestaHabilidades).getAsJsonObject();
-                    JsonArray habilidades = jsonObject.getAsJsonArray("abilities");
+                    JsonObject sprites = jsonObject.getAsJsonObject("sprites");
 
+                    
+                    imagenesPokemon.clear();
+
+                    try {
+                        
+                        cargarImagen(sprites, "front_default");
+                        cargarImagen(sprites, "front_shiny");
+                        cargarImagen(sprites, "back_default");
+                        cargarImagen(sprites, "back_shiny");
+
+                        
+                        indiceImagenActual = 0;
+                        if (!imagenesPokemon.isEmpty()) {
+                            Imagen_Pokemon.setIcon(new ImageIcon(imagenesPokemon.get(indiceImagenActual)));
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Pokedex.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    JsonArray habilidades = jsonObject.getAsJsonArray("abilities");
                     DefaultTableModel modeloHabilidades = new DefaultTableModel(
                             new Object[][]{},
                             new String[]{"N#", "Habilidad", "URL"}
@@ -202,22 +215,6 @@ public class Pokedex extends javax.swing.JFrame {
                     };
 
                     TablaHabilidades.setModel(modeloHabilidades);
-                    JsonObject sprites = jsonObject.getAsJsonObject("sprites");
-                    String imagenUrl = sprites.get("front_default").getAsString();
-
-                    try {
-                        URL url = new URL(imagenUrl);
-                        Image imagen = ImageIO.read(url);
-                        Image imagenEscalada = imagen.getScaledInstance(278, 304, Image.SCALE_SMOOTH);
-
-                        Imagen_Pokemon.setIcon(new ImageIcon(imagenEscalada));
-
-                    } catch (MalformedURLException ex) {
-                        Logger.getLogger(Pokedex.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Pokedex.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
                     for (int i = 0; i < habilidades.size(); i++) {
                         JsonObject habilidadObj = habilidades.get(i).getAsJsonObject().getAsJsonObject("ability");
                         String nombreHabilidad = habilidadObj.get("name").getAsString();
@@ -227,7 +224,7 @@ public class Pokedex extends javax.swing.JFrame {
                         modeloHabilidades.addRow(datoHabilidad);
                     }
 
-                    // Tamaño de columnas
+                    // Configuración de la tabla de habilidades (sin cambios)
                     TablaHabilidades.getColumnModel().getColumn(0).setPreferredWidth(50);
                     TablaHabilidades.getColumnModel().getColumn(1).setPreferredWidth(150);
                     TablaHabilidades.getColumnModel().getColumn(2).setPreferredWidth(300);
@@ -239,22 +236,34 @@ public class Pokedex extends javax.swing.JFrame {
                     TablaHabilidades.getColumnModel().getColumn(0).setCellRenderer(centerRender);
                     TablaHabilidades.getColumnModel().getColumn(1).setCellRenderer(centerRender);
                     TablaHabilidades.getColumnModel().getColumn(2).setCellRenderer(centerRender);
-
-                    // Alto de las filas
                     TablaHabilidades.setRowHeight(30);
                 }
             }
         });
-        Tabla_Pokemones.addMouseListener(new MouseAdapter() {
 
-            public void MouseClicked(MouseEvent e) {
-                int fila = Tabla_Pokemones.rowAtPoint(e.getPoint());
-                Tabla_Pokemones.setBackground(Color.red);
-                if (fila >= 0) {
+    }
 
-                }
+    private void cambiarImagen(int direccion) {
+
+        indiceImagenActual += direccion;
+        if (indiceImagenActual < 0) {
+            indiceImagenActual = imagenesPokemon.size() - 1;
+        } else if (indiceImagenActual >= imagenesPokemon.size()) {
+            indiceImagenActual = 0;
+        }
+
+        Imagen_Pokemon.setIcon(new ImageIcon(imagenesPokemon.get(indiceImagenActual)));
+    }
+    
+    private void cargarImagen(JsonObject sprites, String key) throws IOException {
+        if (sprites.has(key)) {
+            String url = sprites.get(key).getAsString();
+            if (url != null && !url.isEmpty()) {
+                URL imageUrl = new URL(url);
+                Image image = ImageIO.read(imageUrl).getScaledInstance(278, 304, Image.SCALE_SMOOTH);
+                imagenesPokemon.add(image);
             }
-        });
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -276,6 +285,8 @@ public class Pokedex extends javax.swing.JFrame {
         siguienteImagen = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         paginador = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jTree1);
 
@@ -324,12 +335,10 @@ public class Pokedex extends javax.swing.JFrame {
         ScrollPokemones.setViewportView(Tabla_Pokemones);
 
         Imagen_Pokemon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Imagen_Pokemon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         popetas.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         popetas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         popetas.setText("POKEDEX (°□°)");
-        popetas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         etiqueta_pokemon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -356,9 +365,19 @@ public class Pokedex extends javax.swing.JFrame {
 
         imagenAnterior.setBorder(null);
         imagenAnterior.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        imagenAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imagenAnteriorActionPerformed(evt);
+            }
+        });
 
         siguienteImagen.setBorder(null);
         siguienteImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        siguienteImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siguienteImagenActionPerformed(evt);
+            }
+        });
 
         paginador.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -372,6 +391,10 @@ public class Pokedex extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(paginador);
+
+        jButton1.setText("Siguiente");
+
+        jButton2.setText("Anterior");
 
         javax.swing.GroupLayout PanelContenedorPrincipalLayout = new javax.swing.GroupLayout(PanelContenedorPrincipal);
         PanelContenedorPrincipal.setLayout(PanelContenedorPrincipalLayout);
@@ -395,8 +418,12 @@ public class Pokedex extends javax.swing.JFrame {
                         .addContainerGap(53, Short.MAX_VALUE))))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
-                .addGap(115, 115, 115)
+                .addGap(28, 28, 28)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         PanelContenedorPrincipalLayout.setVerticalGroup(
@@ -420,8 +447,11 @@ public class Pokedex extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Tabla_Habilidades, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
+                .addGroup(PanelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(45, 45, 45))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -438,6 +468,15 @@ public class Pokedex extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void imagenAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imagenAnteriorActionPerformed
+        cambiarImagen(-1);
+            
+    }//GEN-LAST:event_imagenAnteriorActionPerformed
+
+    private void siguienteImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguienteImagenActionPerformed
+         cambiarImagen(1);
+    }//GEN-LAST:event_siguienteImagenActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Imagen_Pokemon;
@@ -448,6 +487,8 @@ public class Pokedex extends javax.swing.JFrame {
     private javax.swing.JTable Tabla_Pokemones;
     private javax.swing.JLabel etiqueta_pokemon;
     private javax.swing.JButton imagenAnterior;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
