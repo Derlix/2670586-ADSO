@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,6 +20,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import util.ConsumoAPI;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -30,6 +33,8 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.util.List;
+import javax.swing.Box;
+import javax.swing.JButton;
 
 public class Pokedex extends javax.swing.JFrame {
 
@@ -38,7 +43,14 @@ public class Pokedex extends javax.swing.JFrame {
     String respuesta01 = consumo.consumoGET("https://pokeapi.co/api/v2/pokemon");
     List<Image> imagenesPokemon = new ArrayList<>();
     private int indiceImagenActual = 0;
+    int pagina;
+    int listaPaginas[];
+    int totalPaginas;
+
     public Pokedex() {
+        this.listaPaginas = new int[7];
+        this.pagina = 1;
+        this.totalPaginas = 66;
         initComponents();
         initAlternComponents();
         this.getContentPane().setBackground(Color.WHITE);
@@ -79,44 +91,73 @@ public class Pokedex extends javax.swing.JFrame {
         etiqueta_pokemon.setIcon(new ImageIcon(IconoPokedex.getScaledInstance(158, 88, Image.SCALE_SMOOTH)));
     }
 
+    public void actualizarTabla(String datosAPI) {
+        JsonObject jsonObject = JsonParser.parseString(datosAPI).getAsJsonObject();
+        JsonArray registros = jsonObject.getAsJsonArray("results");
+
+        modelo.setRowCount(0);
+        for (int i = 0; i < registros.size(); i++) {
+            JsonObject registro = registros.get(i).getAsJsonObject();
+            String nombrePokemon = registro.get("name").getAsString();
+            String urlPokemon = registro.get("url").getAsString();
+            modelo.addRow(new Object[]{nombrePokemon, urlPokemon});
+        }
+    }
+
     public void paginadorMetod() {
+        panelPaginador.removeAll();
+        panelPaginador.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        DefaultTableModel paginadorModelo = new DefaultTableModel(new Object[][]{
-            {"1", "2", "3", "4", "5", "6", "7"}
-        }, new String[]{"1", "2", "3", "4", "5", "6", "7"}) {
-            // Override para hacer las celdas no editables
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        paginador.setModel(paginadorModelo);
-
-        for (int i = 0; i < 7; i++) {
-            paginador.getColumnModel().getColumn(i).setPreferredWidth(50);
-        }
-
-        DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
-        centerRender.setHorizontalAlignment(SwingConstants.CENTER);
-        for (int i = 0; i < 7; i++) {
-            paginador.getColumnModel().getColumn(i).setCellRenderer(centerRender);
-        }
-
-        paginador.getTableHeader().setReorderingAllowed(false);
-        paginador.getTableHeader().setResizingAllowed(false);
-
-        paginador.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                int columnaSeleccionada = paginador.columnAtPoint(e.getPoint());
-
-                int numeroPagina = columnaSeleccionada + 1;
-
-                System.out.println("Página seleccionada: " + numeroPagina);
+        JButton btnPrimerPagina = new JButton("<<");
+        panelPaginador.add(btnPrimerPagina);
+        btnPrimerPagina.addActionListener(e -> {
+            pagina = 1;
+            imprimirNombrePokemonos();
+        });
+        btnPrimerPagina.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        JButton btnAtras = new JButton("<");
+        panelPaginador.add(btnAtras);
+        btnAtras.addActionListener(e -> {
+            if (pagina > 1) {
+                pagina--;
+                imprimirNombrePokemonos();
             }
         });
+        btnAtras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        int maximoBotones = 10;
+        int startPage = Math.max(1, pagina - maximoBotones / 2);
+        int endPage = Math.min(totalPaginas, startPage + maximoBotones - 1);
+
+        for (int i = startPage; i <= endPage; i++) {
+            int numPagina = i;
+            JButton btn = new JButton(String.valueOf(numPagina));
+            panelPaginador.add(btn);
+            btn.addActionListener(e -> {
+                pagina = numPagina;
+                imprimirNombrePokemonos();
+            });
+            btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        }
+
+        JButton btnSiguiente = new JButton(">");
+        panelPaginador.add(btnSiguiente);
+        btnSiguiente.addActionListener(e -> {
+            if (pagina < totalPaginas) {
+                pagina++;
+                imprimirNombrePokemonos();
+            }
+        });
+        btnSiguiente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        JButton btnUltimaPagina = new JButton(">>");
+        panelPaginador.add(btnUltimaPagina);
+        btnUltimaPagina.addActionListener(e -> {
+            pagina = totalPaginas;
+            imprimirNombrePokemonos();
+        });
+        btnUltimaPagina.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        panelPaginador.revalidate();
+        panelPaginador.repaint();
     }
 
     public void tablaNombres() {
@@ -147,32 +188,100 @@ public class Pokedex extends javax.swing.JFrame {
     }
 
     public void imprimirNombrePokemonos() {
-        String respuesta01 = consumo.consumoGET("https://pokeapi.co/api/v2/pokemon");
-        System.out.println("Respuesta Obtener: " + respuesta01);
+        int offset = (pagina - 1) * 20;
+        String url = "https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit=20";
+        String respuesta = consumo.consumoGET(url);
+        System.out.println("Respuesta Obtener: " + respuesta);
 
-        if (respuesta01 == null || respuesta01.equals("No hay conexión a Internet") || respuesta01.equals("La conexión ha expirado") || respuesta01.equals("Error de entrada/salida")) {
+        if (respuesta != null && !respuesta.isEmpty()) {
+            JsonObject jsonObject = JsonParser.parseString(respuesta).getAsJsonObject();
+            JsonArray registros = jsonObject.getAsJsonArray("results");
 
-            return;
+            modelo.setRowCount(0);
+            for (int i = 0; i < registros.size(); i++) {
+                JsonObject registro = registros.get(i).getAsJsonObject();
+                String nombrePokemon = registro.get("name").getAsString();
+                String urlPokemon = registro.get("url").getAsString();
+                modelo.addRow(new Object[]{nombrePokemon, urlPokemon});
+            }
+
+            if (registros.size() > 0) {
+                JsonObject primerPokemon = registros.get(0).getAsJsonObject();
+                String nombrePrimerPokemon = primerPokemon.get("name").getAsString();
+                String urlPrimerPokemon = primerPokemon.get("url").getAsString();
+                cargarPrimerPokemon(urlPrimerPokemon);
+            }
+        } else {
+            System.out.println("No se pudo obtener respuesta de la API");
+        }
+    }
+
+    private void cargarPrimerPokemon(String urlPokemon) {
+        String respuestaHabilidades = consumo.consumoGET(urlPokemon);
+        JsonObject jsonObject = JsonParser.parseString(respuestaHabilidades).getAsJsonObject();
+        JsonObject sprites = jsonObject.getAsJsonObject("sprites");
+
+        imagenesPokemon.clear();
+
+        try {
+            cargarImagen(sprites, "front_default");
+            cargarImagen(sprites, "front_shiny");
+            cargarImagen(sprites, "back_default");
+            cargarImagen(sprites, "back_shiny");
+
+            indiceImagenActual = 0;
+            if (!imagenesPokemon.isEmpty()) {
+                Imagen_Pokemon.setIcon(new ImageIcon(imagenesPokemon.get(indiceImagenActual)));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Pokedex.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        modelo.setRowCount(0);
-        JsonObject jsonObject = JsonParser.parseString(respuesta01).getAsJsonObject();
-        JsonArray registros = jsonObject.getAsJsonArray("results");
+        JsonArray habilidades = jsonObject.getAsJsonArray("abilities");
+        DefaultTableModel modeloHabilidades = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{"N#", "Habilidad", "URL"}
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
-        for (int i = 0; i < registros.size(); i++) {
-            JsonObject temp = registros.get(i).getAsJsonObject();
-            String nombrePokemon = temp.get("name").getAsString();
-            String urlPokemon = temp.get("url").getAsString();
+        TablaHabilidades.setModel(modeloHabilidades);
+        for (int i = 0; i < habilidades.size(); i++) {
+            JsonObject habilidadObj = habilidades.get(i).getAsJsonObject().getAsJsonObject("ability");
+            String nombreHabilidad = habilidadObj.get("name").getAsString();
+            String urlHabilidad = habilidadObj.get("url").getAsString();
 
-            Object dato[] = new Object[]{nombrePokemon, urlPokemon};
-            modelo.addRow(dato);
+            Object[] datoHabilidad = new Object[]{i + 1, nombreHabilidad, urlHabilidad};
+            modeloHabilidades.addRow(datoHabilidad);
         }
+
+        // Configuración de la tabla de habilidades
+        TablaHabilidades.getColumnModel().getColumn(0).setPreferredWidth(50);
+        TablaHabilidades.getColumnModel().getColumn(1).setPreferredWidth(150);
+        TablaHabilidades.getColumnModel().getColumn(2).setPreferredWidth(300);
+
+        TablaHabilidades.getTableHeader().setReorderingAllowed(false);
+        TablaHabilidades.getTableHeader().setResizingAllowed(false);
+        DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
+        centerRender.setHorizontalAlignment(SwingConstants.CENTER);
+        TablaHabilidades.getColumnModel().getColumn(0).setCellRenderer(centerRender);
+        TablaHabilidades.getColumnModel().getColumn(1).setCellRenderer(centerRender);
+        TablaHabilidades.getColumnModel().getColumn(2).setCellRenderer(centerRender);
+        TablaHabilidades.setRowHeight(30);
     }
 
     private void agregarMouseListenerTabla() {
         Tabla_Pokemones.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if (pagina < 1) {
+                    pagina = 1;
+                } else if (pagina > totalPaginas) {
+                    pagina = totalPaginas;
+                }
                 int fila = Tabla_Pokemones.rowAtPoint(e.getPoint());
                 if (fila >= 0) {
                     imagenAnterior.setEnabled(true);
@@ -184,17 +293,15 @@ public class Pokedex extends javax.swing.JFrame {
                     JsonObject jsonObject = JsonParser.parseString(respuestaHabilidades).getAsJsonObject();
                     JsonObject sprites = jsonObject.getAsJsonObject("sprites");
 
-                    
                     imagenesPokemon.clear();
 
                     try {
-                        
+
                         cargarImagen(sprites, "front_default");
                         cargarImagen(sprites, "front_shiny");
                         cargarImagen(sprites, "back_default");
                         cargarImagen(sprites, "back_shiny");
 
-                        
                         indiceImagenActual = 0;
                         if (!imagenesPokemon.isEmpty()) {
                             Imagen_Pokemon.setIcon(new ImageIcon(imagenesPokemon.get(indiceImagenActual)));
@@ -202,7 +309,7 @@ public class Pokedex extends javax.swing.JFrame {
                     } catch (IOException ex) {
                         Logger.getLogger(Pokedex.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                     JsonArray habilidades = jsonObject.getAsJsonArray("abilities");
                     DefaultTableModel modeloHabilidades = new DefaultTableModel(
                             new Object[][]{},
@@ -254,7 +361,7 @@ public class Pokedex extends javax.swing.JFrame {
 
         Imagen_Pokemon.setIcon(new ImageIcon(imagenesPokemon.get(indiceImagenActual)));
     }
-    
+
     private void cargarImagen(JsonObject sprites, String key) throws IOException {
         if (sprites.has(key)) {
             String url = sprites.get(key).getAsString();
@@ -283,10 +390,7 @@ public class Pokedex extends javax.swing.JFrame {
         etiqueta_pokemon = new javax.swing.JLabel();
         imagenAnterior = new javax.swing.JButton();
         siguienteImagen = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        paginador = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        panelPaginador = new javax.swing.JPanel();
 
         jScrollPane1.setViewportView(jTree1);
 
@@ -379,52 +483,34 @@ public class Pokedex extends javax.swing.JFrame {
             }
         });
 
-        paginador.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(paginador);
-
-        jButton1.setText("Siguiente");
-
-        jButton2.setText("Anterior");
+        panelPaginador.setLayout(new javax.swing.BoxLayout(panelPaginador, javax.swing.BoxLayout.LINE_AXIS));
 
         javax.swing.GroupLayout PanelContenedorPrincipalLayout = new javax.swing.GroupLayout(PanelContenedorPrincipal);
         PanelContenedorPrincipal.setLayout(PanelContenedorPrincipalLayout);
         PanelContenedorPrincipalLayout.setHorizontalGroup(
             PanelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelContenedorPrincipalLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(ScrollPokemones, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(PanelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(imagenAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Imagen_Pokemon, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(siguienteImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
-                    .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(Tabla_Habilidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(53, Short.MAX_VALUE))))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addGroup(PanelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
+                        .addComponent(panelPaginador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
+                        .addComponent(ScrollPokemones, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(PanelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(imagenAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Imagen_Pokemon, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(siguienteImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21))
+                            .addGroup(PanelContenedorPrincipalLayout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(Tabla_Habilidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(53, Short.MAX_VALUE))))))
         );
         PanelContenedorPrincipalLayout.setVerticalGroup(
             PanelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,12 +532,9 @@ public class Pokedex extends javax.swing.JFrame {
                                     .addComponent(siguienteImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Tabla_Habilidades, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addGroup(PanelContenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(45, 45, 45))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelPaginador, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -470,11 +553,11 @@ public class Pokedex extends javax.swing.JFrame {
 
     private void imagenAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imagenAnteriorActionPerformed
         cambiarImagen(-1);
-            
+
     }//GEN-LAST:event_imagenAnteriorActionPerformed
 
     private void siguienteImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguienteImagenActionPerformed
-         cambiarImagen(1);
+        cambiarImagen(1);
     }//GEN-LAST:event_siguienteImagenActionPerformed
 
 
@@ -487,13 +570,10 @@ public class Pokedex extends javax.swing.JFrame {
     private javax.swing.JTable Tabla_Pokemones;
     private javax.swing.JLabel etiqueta_pokemon;
     private javax.swing.JButton imagenAnterior;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTree jTree1;
-    private javax.swing.JTable paginador;
+    private javax.swing.JPanel panelPaginador;
     private javax.swing.JLabel popetas;
     private javax.swing.JButton siguienteImagen;
     // End of variables declaration//GEN-END:variables

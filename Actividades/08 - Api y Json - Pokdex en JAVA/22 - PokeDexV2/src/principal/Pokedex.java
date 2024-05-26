@@ -3,6 +3,7 @@ package principal;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.management.StringValueExp;
@@ -22,12 +23,130 @@ public class Pokedex extends javax.swing.JFrame {
     public Pokedex() {
         this.consumo = new ConsumoAPI();
         this.listaPaginas = new int[7];
-        this.pagina = 2;
+        this.pagina = 1;
         this.totalPaginas = 66;
         initComponents();
         initAlternComponents();
         cargarPokemones();
         cargarPaginador();
+    }
+
+    public void initAlternComponents() {
+        setTitle("POKEDEX");
+        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/pokeball.png")));
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+    }
+
+    public void cargarPokemones() {
+        if (pagina < 1) {
+            pagina = 1;
+        } else if (pagina > totalPaginas) {
+            pagina = totalPaginas;
+        }
+        int offset = (this.pagina * 20) - 20;
+        String endpoint = "https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit=20";
+        String data = this.consumo.consumoGET(endpoint);
+
+        JsonObject dataJson = JsonParser.parseString(data).getAsJsonObject();
+        JsonArray results = dataJson.getAsJsonArray("results");
+        panelBotones.removeAll();
+        for (int i = 0; i < results.size(); i++) {
+            JsonObject temp = results.get(i).getAsJsonObject();
+
+            JButton btn = new JButton(temp.get("name").getAsString());
+            panelBotones.add(btn);
+
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Nombre: " + temp.get("name").getAsString());
+                    System.out.println("Url: " + temp.get("url").getAsString());
+
+                    panelDetalle.removeAll();
+                    DetallePokemon detalle = new DetallePokemon(temp);
+                    detalle.setSize(panelDetalle.getSize());
+                    detalle.setPreferredSize(panelDetalle.getPreferredSize());
+                    panelDetalle.add(detalle);
+
+                    revalidate();
+                    repaint();
+                }
+            });
+        }
+
+        panelDetalle.removeAll();
+        DetallePokemon detalle = new DetallePokemon(results.get(0).getAsJsonObject());
+        detalle.setSize(panelDetalle.getSize());
+        detalle.setPreferredSize(panelDetalle.getPreferredSize());
+        panelDetalle.add(detalle);
+
+        revalidate();
+        repaint();
+    }
+
+    public void cargarPaginador() {
+        panelPaginador.setLayout(new FlowLayout(FlowLayout.CENTER)); 
+        panelPaginador.removeAll();
+        panelPaginador.add(Box.createHorizontalBox());
+
+        JButton btnPrimerPagina = new JButton("<<");
+        panelPaginador.add(btnPrimerPagina);
+        btnPrimerPagina.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pagina = 1;
+                cargarPokemones();
+            }
+        });
+        JButton btnAtras = new JButton("<");
+        panelPaginador.add(btnAtras);
+        btnAtras.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pagina > 1) {
+                    pagina--;
+                    cargarPokemones();
+                }
+            }
+        });
+
+        for (int i = 1; i < listaPaginas.length + 1; i++) {
+
+            int numPagina = i + 1;
+            JButton btn = new JButton(String.valueOf(numPagina));
+            panelPaginador.add(btn);
+            btn.addActionListener(e -> {
+                pagina = numPagina;
+                cargarPokemones();
+            });
+        }
+
+        JButton btnSiguiente = new JButton(">");
+        panelPaginador.add(btnSiguiente);
+        btnSiguiente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pagina < totalPaginas) {
+                    pagina++;
+                    cargarPokemones();
+                }
+            }
+        });
+        JButton btnUltimaPagina = new JButton(">>");
+        panelPaginador.add(btnUltimaPagina);
+        btnUltimaPagina.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pagina = totalPaginas;
+                cargarPokemones();
+            }
+        });
+        panelPaginador.add(Box.createHorizontalGlue());
+        repaint();
+        revalidate();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -108,123 +227,6 @@ public class Pokedex extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void initAlternComponents() {
-        setTitle("POKEDEX");
-        setIconImage(getToolkit().createImage(ClassLoader.getSystemResource("imagenes/pokeball.png")));
-        setLocationRelativeTo(null);
-        setVisible(true);
-
-    }
-
-    public void cargarPokemones() {
-        int offset = (this.pagina * 20) - 20;
-        String endpoint = "https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit=20";
-        String data = this.consumo.consumoGET(endpoint);
-
-        JsonObject dataJson = JsonParser.parseString(data).getAsJsonObject();
-        JsonArray results = dataJson.getAsJsonArray("results");
-        for (int i = 0; i < results.size(); i++) {
-            JsonObject temp = results.get(i).getAsJsonObject();
-
-            JButton btn = new JButton(temp.get("name").getAsString());
-            panelBotones.add(btn);
-
-            btn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Nombre: " + temp.get("name").getAsString());
-                    System.out.println("Url: " + temp.get("url").getAsString());
-
-                    panelDetalle.removeAll();
-                    DetallePokemon detalle = new DetallePokemon(temp);
-                    detalle.setSize(panelDetalle.getSize());
-                    detalle.setPreferredSize(panelDetalle.getPreferredSize());
-                    panelDetalle.add(detalle);
-
-                    revalidate();
-                    repaint();
-                }
-            });
-        }
-
-        panelDetalle.removeAll();
-        DetallePokemon detalle = new DetallePokemon(results.get(0).getAsJsonObject());
-        detalle.setSize(panelDetalle.getSize());
-        detalle.setPreferredSize(panelDetalle.getPreferredSize());
-        panelDetalle.add(detalle);
-
-        revalidate();
-        repaint();
-    }
-
-    public void cargarPaginador() {
-        panelPaginador.removeAll();
-        panelPaginador.add(Box.createHorizontalBox());
-
-        JButton btnPrimerPagina = new JButton("<<");
-        panelPaginador.add(btnPrimerPagina);
-        btnPrimerPagina.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Hola mundo");
-                cargarPokemones();
-                pagina = listaPaginas[0];
-                 cargarPokemones();
-                panelBotones.removeAll();
-            }
-        });
-        JButton btnAtras = new JButton("<");
-        panelPaginador.add(btnAtras);
-        btnAtras.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Hola mundo");
-                pagina = pagina -1 ;
-                 cargarPokemones();
-            }
-        });
-
-        for (int i = 1; i < listaPaginas.length + 1; i++) {
-
-            JButton btn = new JButton(String.valueOf(i));
-            panelPaginador.add(btn);
-            btn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Hola mundo");
-                    
-                }
-            });
-        }
-
-        JButton btnSiguiente = new JButton(">");
-        panelPaginador.add(btnSiguiente);
-        btnSiguiente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Hola mundo");
-                pagina = pagina +1;
-                cargarPokemones();
-            }
-        });
-        JButton btnUltimaPagina = new JButton(">>");
-        panelPaginador.add(btnUltimaPagina);
-        btnUltimaPagina.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Hola mundo");
-                pagina = listaPaginas[6];
-                if(pagina < 0){
-                    pagina =1;
-                }
-                 cargarPokemones();
-            }
-        });
-        panelPaginador.add(Box.createHorizontalGlue());
-        repaint();
-        revalidate();
-
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
