@@ -12,6 +12,7 @@ public class Principal {
         //Endpoint obtener
         String respuesta01 = consumo.consumoGET("https://pokeapi.co/api/v2/pokemon");
         System.out.println("Respuesta Obtener: "+ respuesta01 );
+        
 
     }
     
