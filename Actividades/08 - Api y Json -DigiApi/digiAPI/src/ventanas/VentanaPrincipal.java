@@ -4,6 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -56,7 +59,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
         String endpoint = "https://digi-api.com/api/v1/digimon?page=" + pagina;
         String data = this.consumo.consumoGET(endpoint);
-        panelMostrar.setLayout(new GridLayout(2, 3, 10, 10)); 
+        panelMostrar.setLayout(new GridLayout(2, 3, 10, 10));
         panelMostrar.removeAll();
 
         System.out.println(data);
@@ -64,29 +67,40 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         JsonObject jsonObject = JsonParser.parseString(data).getAsJsonObject();
         JsonArray registros = jsonObject.getAsJsonArray("content");
 
-        for (int i = 0; i < 5; i++) { 
-            
+        for (int i = 0; i < 5; i++) {
+
             JsonObject registro = registros.get(i).getAsJsonObject();
             String nombreDigimon = registro.get("name").getAsString();
             String urlDigimon = registro.get("href").getAsString();
             String imagenDigimon = registro.get("image").getAsString();
 
             Icon imagen = cargarImagen(imagenDigimon);
-            JLabel digimonImage = new JLabel(imagen);
             JLabel digimonName = new JLabel(nombreDigimon);
-            JButton btn = new JButton("Ver detalles...");
+            JLabel digimonImage = new JLabel(imagen);
+            
+            
+            JButton btn = new JButton();
 
-            JPanel digimonPanel = new JPanel();
-            digimonPanel.setLayout(new GridLayout(3, 1));
-            digimonPanel.add(digimonImage);
-            digimonPanel.add(digimonName);
-            digimonPanel.add(btn);
+            btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btn.setOpaque(false);
+            btn.setContentAreaFilled(false);
 
-            panelMostrar.add(digimonPanel);
-
-            btn.addActionListener(e -> {
-                VentanaDetalles ventana = new VentanaDetalles(urlDigimon);
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    VentanaDetalles ventana = new VentanaDetalles(urlDigimon);
+                }
             });
+
+            btn.setLayout(new GridLayout(3, 1));
+            btn.add(digimonName);
+            digimonName.setFont(new Font("Arial",Font.BOLD,10));
+            btn.add(digimonImage);
+            
+            btn.add(Box.createVerticalGlue());
+
+            panelMostrar.add(btn);
+
         }
 
         repaint();
@@ -96,8 +110,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private Icon cargarImagen(String url) {
         try {
             Image img = ImageIO.read(new URL(url));
-            Image scaledImg = img.getScaledInstance(320, 100, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImg);
+            Image imagenEscalada = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            return new ImageIcon(imagenEscalada);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -105,7 +119,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     public void cargarPaginador() {
-        panelPaginador.setLayout(new GridLayout(1, 9));
+        panelPaginador.setLayout(new GridLayout(1, 6));
         panelPaginador.removeAll();
 
         JButton btnPrimerPagina = new JButton("<<");
@@ -188,7 +202,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 1226, Short.MAX_VALUE)
+                    .addComponent(panelMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
                     .addComponent(panelPaginador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -196,9 +210,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
+                .addComponent(panelMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelPaginador, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelPaginador, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

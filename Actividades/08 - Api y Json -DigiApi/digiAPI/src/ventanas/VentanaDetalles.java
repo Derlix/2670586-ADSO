@@ -1,22 +1,68 @@
 package ventanas;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.awt.Image;
+import java.io.IOException;
 import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import utils.ConsumoAPI;
 
-public class VentanaDetalles extends javax.swing.JFrame {
+public class VentanaDetalles extends JFrame {
 
-    
-    
+    private String url;
+    private ConsumoAPI consumo;
+
     public VentanaDetalles(String url) {
-        initComponents();
+        this.url = url;
+        this.consumo = new ConsumoAPI();
+        initComponents(); // Asegúrate de que este método se llama para inicializar los componentes
         componenetesAlternos();
+        mostrarDetalles();
     }
-    
-    public void componenetesAlternos(){
+
+    public void componenetesAlternos() {
         setTitle("Detalles Digimon");
         setVisible(true);
         setLocationRelativeTo(null);
     }
 
+    public void mostrarDetalles() {
+        String data = this.consumo.consumoGET(this.url);
+        JsonObject jsonObject = JsonParser.parseString(data).getAsJsonObject();
+
+        if (jsonObject != null) {
+            String id = jsonObject.get("id").getAsString();
+            String nombre = jsonObject.get("name").getAsString();
+            String imagenUrl = jsonObject.get("images").getAsJsonArray().get(0).getAsJsonObject().get("href").getAsString();
+            String atributo = jsonObject.get("attributes").getAsJsonArray().get(0).getAsJsonObject().get("attribute").getAsString();
+            String nivel = jsonObject.get("levels").getAsJsonArray().get(0).getAsJsonObject().get("level").getAsString();
+            String tipo = jsonObject.get("types").getAsJsonArray().get(0).getAsJsonObject().get("type").getAsString();
+
+            id_etiqueta.setText(tipo);
+            Digimon_nombre.setText(nombre);
+            etqMostrarAtributo.setText( atributo);
+            etqMostrarLevel.setText(nivel);
+            etqTipo.setText(tipo);
+
+            if (imagenUrl != null) {
+                try {
+                    URL url = new URL(imagenUrl);
+                    Image img = ImageIO.read(url);
+                    Image scaledImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                    DigimonImagen.setIcon(new ImageIcon(scaledImg));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                DigimonImagen.setText("Imagen no disponible");
+            }
+        } else {
+            Digimon_nombre.setText("No se pudieron obtener los detalles del Digimon");
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
