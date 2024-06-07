@@ -1,13 +1,18 @@
 package ventanas;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import utils.ConsumoAPI;
 
 public class VentanaDetalles extends JFrame {
@@ -15,10 +20,10 @@ public class VentanaDetalles extends JFrame {
     private String url;
     private ConsumoAPI consumo;
 
-    public VentanaDetalles(String url) {
+    public VentanaDetalles(String url) throws MalformedURLException {
         this.url = url;
         this.consumo = new ConsumoAPI();
-        initComponents(); // Asegúrate de que este método se llama para inicializar los componentes
+        initComponents(); 
         componenetesAlternos();
         mostrarDetalles();
     }
@@ -27,9 +32,10 @@ public class VentanaDetalles extends JFrame {
         setTitle("Detalles Digimon");
         setVisible(true);
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
-    public void mostrarDetalles() {
+    public void mostrarDetalles() throws MalformedURLException {
         String data = this.consumo.consumoGET(this.url);
         JsonObject jsonObject = JsonParser.parseString(data).getAsJsonObject();
 
@@ -40,12 +46,28 @@ public class VentanaDetalles extends JFrame {
             String atributo = jsonObject.get("attributes").getAsJsonArray().get(0).getAsJsonObject().get("attribute").getAsString();
             String nivel = jsonObject.get("levels").getAsJsonArray().get(0).getAsJsonObject().get("level").getAsString();
             String tipo = jsonObject.get("types").getAsJsonArray().get(0).getAsJsonObject().get("type").getAsString();
+            JsonArray fields = jsonObject.getAsJsonArray("fields");
+            JPanel panelFields = new JPanel(new GridLayout(fields.size(), 1));
+            mostrarFields.setViewportView(panelFields);
 
             id_etiqueta.setText(tipo);
             Digimon_nombre.setText(nombre);
-            etqMostrarAtributo.setText( atributo);
+            etqMostrarAtributo.setText(atributo);
             etqMostrarLevel.setText(nivel);
             etqTipo.setText(tipo);
+
+            for (int i = 0; i < fields.size(); i++) {
+                JsonObject field = fields.get(i).getAsJsonObject();
+                String nombreField = field.get("field").getAsString();
+                String imagenField = field.get("image").getAsString();
+
+                JLabel labelField = new JLabel(nombreField);
+                ImageIcon icon = new ImageIcon(new URL(imagenField));
+                Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                labelField.setIcon(new ImageIcon(scaledImage));
+
+                panelFields.add(labelField);
+            }
 
             if (imagenUrl != null) {
                 try {
@@ -63,6 +85,7 @@ public class VentanaDetalles extends JFrame {
             Digimon_nombre.setText("No se pudieron obtener los detalles del Digimon");
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -77,6 +100,7 @@ public class VentanaDetalles extends JFrame {
         etqMostrarLevel = new javax.swing.JLabel();
         etqMostrarAtributo = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        mostrarFields = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,8 +110,8 @@ public class VentanaDetalles extends JFrame {
 
         id_etiqueta.setText("jLabel2");
 
-        DigimonImagen.setText("jLabel1");
-        DigimonImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        DigimonImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DigimonImagen.setBorder(javax.swing.BorderFactory.createLineBorder(null));
 
         etqNivel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         etqNivel.setText("Level");
@@ -95,14 +119,14 @@ public class VentanaDetalles extends JFrame {
         etqAtributo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         etqAtributo.setText("Atributo");
 
-        etqTipo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         etqTipo.setText("Tipo");
 
         etqMostrarLevel.setText("jLabel4");
 
         etqMostrarAtributo.setText("jLabel5");
 
-        jLabel6.setText("jLabel6");
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setText("Tipo");
 
         javax.swing.GroupLayout panelDetallesLayout = new javax.swing.GroupLayout(panelDetalles);
         panelDetalles.setLayout(panelDetallesLayout);
@@ -111,32 +135,36 @@ public class VentanaDetalles extends JFrame {
             .addGroup(panelDetallesLayout.createSequentialGroup()
                 .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDetallesLayout.createSequentialGroup()
-                        .addGap(141, 141, 141)
-                        .addComponent(Digimon_nombre))
+                        .addGap(63, 63, 63)
+                        .addComponent(DigimonImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDetallesLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(mostrarFields, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDetallesLayout.createSequentialGroup()
+                        .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDetallesLayout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(etqNivel)
+                                .addGap(59, 59, 59)
+                                .addComponent(etqAtributo))
+                            .addGroup(panelDetallesLayout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(etqMostrarLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(etqMostrarAtributo, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDetallesLayout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel6))
+                            .addGroup(panelDetallesLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(etqTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelDetallesLayout.createSequentialGroup()
                         .addGap(161, 161, 161)
-                        .addComponent(id_etiqueta))
-                    .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDetallesLayout.createSequentialGroup()
-                            .addGap(63, 63, 63)
-                            .addComponent(DigimonImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDetallesLayout.createSequentialGroup()
-                            .addGap(18, 18, 18)
-                            .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(etqNivel)
-                                .addComponent(etqMostrarLevel))
-                            .addGap(81, 81, 81)
-                            .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDetallesLayout.createSequentialGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
-                                    .addComponent(etqMostrarAtributo)
-                                    .addGap(80, 80, 80)
-                                    .addComponent(jLabel6))
-                                .addGroup(panelDetallesLayout.createSequentialGroup()
-                                    .addComponent(etqAtributo)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(etqTipo))))))
-                .addContainerGap(77, Short.MAX_VALUE))
+                        .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Digimon_nombre)
+                            .addComponent(id_etiqueta))))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         panelDetallesLayout.setVerticalGroup(
             panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,30 +179,26 @@ public class VentanaDetalles extends JFrame {
                 .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etqNivel)
                     .addComponent(etqAtributo)
-                    .addComponent(etqTipo))
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etqMostrarAtributo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(etqMostrarLevel)
-                    .addComponent(etqMostrarAtributo)
-                    .addComponent(jLabel6))
-                .addContainerGap(78, Short.MAX_VALUE))
+                    .addComponent(etqTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(mostrarFields, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelDetalles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panelDetalles, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelDetalles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panelDetalles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -190,6 +214,7 @@ public class VentanaDetalles extends JFrame {
     private javax.swing.JLabel etqTipo;
     private javax.swing.JLabel id_etiqueta;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane mostrarFields;
     private javax.swing.JPanel panelDetalles;
     // End of variables declaration//GEN-END:variables
 }
