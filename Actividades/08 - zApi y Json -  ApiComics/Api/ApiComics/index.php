@@ -15,8 +15,8 @@
         <h1 class="text-center my-4">API de Comics</h1>
     </div>
 
-    <div class="container ">
-        <div id="carouselExampleDark" class="carousel carousel-dark slide">
+    <div class="container">
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
             <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="10000">
@@ -30,20 +30,21 @@
                         <h5>Salida: JSON</h5>
                         <div class="text-start d-inline-block">
                             <h5>Lista de Comics:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;[
-    &nbsp;&nbsp;&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id_comic": "1",
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"titulo": "Spider-Man",
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"total_paginas": "120",
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"fecha_lanzamiento": "1962-08-01",
-    &nbsp;&nbsp;&nbsp;&nbsp;},
-    &nbsp;&nbsp;&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id_comic": "2",
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"titulo": "Batman",
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"total_paginas": "150",
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"fecha_lanzamiento": "1939-05-01",
-    &nbsp;&nbsp;&nbsp;&nbsp;}
-    &nbsp;&nbsp;]</pre>
+                            <pre class="endpoint-name">
+[
+    {
+        "id_comic": "1",
+        "titulo": "Spider-Man",
+        "total_paginas": "120",
+        "fecha_lanzamiento": "1962-08-01"
+    },
+    {
+        "id_comic": "2",
+        "titulo": "Batman",
+        "total_paginas": "150",
+        "fecha_lanzamiento": "1939-05-01"
+    }
+]</pre>
                         </div>
                     </div>
                 </div>
@@ -52,7 +53,7 @@
                         <h4>EndPoint: <span class="endpoint-name"><a href="./API/InsertarComic.php">API/InsertarComic.php</a></span></h4>
                         <h5>Método: POST</h5>
                         <h5>Parámetros:</h5>
-                        <ul class="input-list list-unstyled ">
+                        <ul class="input-list list-unstyled">
                             <li><i><b>String</b></i> titulo</li>
                             <li><i><b>String</b></i> autor</li>
                             <li><i><b>int</b></i> total_paginas</li>
@@ -61,22 +62,23 @@
                         <h5>Salida: JSON</h5>
                         <div class="text-start d-inline-block">
                             <h5>Comic insertado:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": true,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "OK##COMIC##INSERT"
-    &nbsp;&nbsp;}</pre>
-
+                            <pre class="endpoint-name">
+{
+    "status": true,
+    "message": "OK##COMIC##INSERT"
+}</pre>
                             <h5>Error en parámetros:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": false,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "ERROR##DATOS##POST"
-    &nbsp;&nbsp;}</pre>
-
+                            <pre class="endpoint-name">
+{
+    "status": false,
+    "message": "ERROR##DATOS##POST"
+}</pre>
                             <h5>Error en inserción:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": false,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "ERROR##COMIC##INSERT"
-    &nbsp;&nbsp;}</pre>
+                            <pre class="endpoint-name">
+{
+    "status": false,
+    "message": "ERROR##COMIC##INSERT"
+}</pre>
                         </div>
                     </div>
                 </div>
@@ -94,22 +96,23 @@
                         <h5>Salida: JSON</h5>
                         <div class="text-start d-inline-block">
                             <h5>Comic actualizada:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": true,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "OK##COMIC##UPDATE"
-    &nbsp;&nbsp;}</pre>
-
+                            <pre class="endpoint-name">
+{
+    "status": true,
+    "message": "OK##COMIC##UPDATE"
+}</pre>
                             <h5>Error en parámetros:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": false,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "ERROR##DATOS##POST"
-    &nbsp;&nbsp;}</pre>
-
+                            <pre class="endpoint-name">
+{
+    "status": false,
+    "message": "ERROR##DATOS##POST"
+}</pre>
                             <h5>Error en actualización:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": false,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "ERROR##COMIC##UPDATE"
-    &nbsp;&nbsp;}</pre>
+                            <pre class="endpoint-name">
+{
+    "status": false,
+    "message": "ERROR##COMIC##UPDATE"
+}</pre>
                         </div>
                     </div>
                 </div>
@@ -124,22 +127,23 @@
                         <h5>Salida: JSON</h5>
                         <div class="text-start d-inline-block">
                             <h5>Comic eliminada:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": true,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "OK##DELETE"
-    &nbsp;&nbsp;}</pre>
-
+                            <pre class="endpoint-name">
+{
+    "status": true,
+    "message": "OK##DELETE"
+}</pre>
                             <h5>Error en parámetros:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": false,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "ERROR##DATOS##POST"
-    &nbsp;&nbsp;}</pre>
-
+                            <pre class="endpoint-name">
+{
+    "status": false,
+    "message": "ERROR##DATOS##POST"
+}</pre>
                             <h5>Error en eliminación:</h5>
-                            <pre class="endpoint-name">&nbsp;&nbsp;{
-    &nbsp;&nbsp;&nbsp;&nbsp;"status": false,
-    &nbsp;&nbsp;&nbsp;&nbsp;"message": "ERROR##DELETE"
-    &nbsp;&nbsp;}</pre>
+                            <pre class="endpoint-name">
+{
+    "status": false,
+    "message": "ERROR##DELETE"
+}</pre>
                         </div>
                     </div>
                 </div>
@@ -148,13 +152,12 @@
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <button class="carousel-control-next bs-white" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
 
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

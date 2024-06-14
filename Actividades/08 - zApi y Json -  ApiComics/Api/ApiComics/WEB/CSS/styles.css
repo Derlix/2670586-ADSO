@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffedfe;
+    background-color: #0D0D0D;
+    color: #BFBCAA;
     margin: 0;
     padding: 0;
 }
@@ -9,19 +10,26 @@ body {
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #0D0D0D;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #BFBCAA;
 }
 
 h1 {
     text-transform: uppercase;
     text-align: center;
-    color: #ff0000;
+    color: #D98D30;
+}
+
+h4 {
+    color: #D99C2B;
 }
 
 h5 {
     margin: 0px !important;
+    color: #A64E55;
+    font-weight: bold;
 }
 
 ul {
@@ -32,44 +40,37 @@ ul {
 li {
     margin-bottom: 10px;
     border-radius: 5px;
-    background-color: #f0f0f0;
+    background-color: #0D0D0D;
     padding: 10px;
+    border: 1px solid #BFBCAA;
 }
 
 pre {
     display: inline-block;
-    margin:0px !important; 
-    padding:0px !important; 
+    margin: 0px !important;
+    padding: 10px !important;
     text-align: left !important;
+    background-color: #1A1A1A;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    color: #D99C2B;
 }
 
-.input-list{
+.input-list {
     padding-top: 5px;
     padding-left: 30px;
     padding-bottom: 5px;
-    color: blueviolet;
+    color: #A64E55;
 }
 
 .input-list li {
-    margin:0px;
+    margin: 0px;
     padding: 0px;
 }
 
 .endpoint-name {
     font-weight: bold;
-    color: #ff64dd;
+    color: #D98D30;
     font-size: 20px;
 }
 
-.endpoint-path {
-    color: #ffffff;
-}
-
-.carousel-indicators{
-    margin-top: 20px;
-}
-
-h5{
-    color: black;
-    font-weight: bold;
-}
